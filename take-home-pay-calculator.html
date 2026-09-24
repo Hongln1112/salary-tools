@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Take-Home Pay Calculator — After-Tax Salary Calculator (2026)</title>
+<meta name="description" content="Free take-home pay calculator for 2026: estimate your after-tax salary by entering your gross pay, state, and filing status. Accounts for federal income tax, FICA, and state tax.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B3%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#f4f7fb;--card:#ffffff;--ink:#1c2a3a;--muted:#5b6b7b;--brand:#1f6feb;--brand-dark:#155ab8;
+    --good:#1a9e5c;--line:#e4eaf1;--radius:16px;--shadow:0 8px 28px rgba(28,42,58,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 18px 48px;}
+  header.top{padding:6px 0 22px;}
+  header.top .brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);}
+  header.top .brand span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand);}
+  h1{font-size:clamp(26px,4.5vw,34px);font-weight:800;letter-spacing:-.5px;line-height:1.25;margin:12px 0 10px;}
+  .sub{font-size:16px;color:var(--muted);max-width:600px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 24px;margin-top:26px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .field .hint{font-size:12px;color:var(--muted);font-weight:400;}
+  .input{width:100%;padding:13px 14px;font-size:16px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;outline:none;transition:border-color .15s;}
+  .input:focus{border-color:var(--brand);background:#fff;}
+  .prefix{position:relative;}
+  .prefix .sign{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);}
+  .prefix .input{padding-left:32px;}
+  .btn{width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:11px;cursor:pointer;margin-top:6px;transition:background .15s;}
+  .btn:hover{background:var(--brand-dark);}
+  .result{margin-top:24px;border-top:1px solid var(--line);padding-top:20px;}
+  .result.hidden{display:none;}
+  .result .big{font-size:15px;color:var(--muted);font-weight:600;}
+  .result .num{font-size:clamp(38px,8vw,48px);font-weight:800;letter-spacing:-1px;color:var(--brand);line-height:1.1;margin-top:4px;}
+  .break{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:16px;}
+  .break .b{background:#f4f7fb;border-radius:10px;padding:12px;}
+  .break .bl{font-size:12px;color:var(--muted);font-weight:600;}
+  .break .bv{font-size:18px;font-weight:700;margin-top:4px;}
+  .note{font-size:13px;color:var(--muted);margin-top:12px;}
+  .section{margin-top:40px;}
+  .section h2{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:12px;}
+  .section p{font-size:15px;color:#33455a;margin-bottom:12px;}
+  .callout{background:#eef5ff;border-left:4px solid var(--brand);padding:14px 16px;border-radius:10px;margin:14px 0;}
+  .back{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;}
+  .disclaimer{font-size:12.5px;color:#8a99a8;margin-top:24px;line-height:1.7;}
+  @media (max-width:520px){.card{padding:20px 16px;}.wrap{padding:20px 14px 40px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← All pay tools</a>
+  <header class="top">
+    <div class="brand"><span></span> Salary &amp; Pay Tools</div>
+    <h1>Take-Home Pay Calculator</h1>
+    <p class="sub">Estimate how much of your salary you actually keep after federal, state, and FICA taxes — based on 2026 rates.</p>
+  </header>
+
+
+  <div class="related" style="margin-top:8px;font-size:13px;color:var(--muted);">
+    Related: <a href="hourly-wage-calculator.html" style="color:var(--brand);text-decoration:none;font-weight:600;">Hourly Wage</a> · <a href="salary-converter.html" style="color:var(--brand);text-decoration:none;font-weight:600;">Salary Converter</a>
+  </div>
+  <div class="card">
+    <div class="field">
+      <label for="gross">Annual gross salary <span class="hint">(before taxes)</span></label>
+      <div class="prefix"><span class="sign">$</span><input class="input" id="gross" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 65000"></div>
+    </div>
+    <div class="field">
+      <label for="state">State</label>
+      <select class="input" id="state">
+        <option value="0">No state income tax</option>
+        <option value="0.011">Alabama — 1.1%</option>
+        <option value="0.025">Alaska — 0%</option>
+        <option value="0">Arizona — 2.5%</option>
+        <option value="0.039">Arkansas — 3.9%</option>
+        <option value="0.011">California — 1.1%</option>
+        <option value="0.0455">Colorado — 4.55%</option>
+        <option value="0.05">Connecticut — 5.0%</option>
+        <option value="0">Delaware — 0%</option>
+        <option value="0">Florida — 0%</option>
+        <option value="0.0539">Georgia — 5.39%</option>
+        <option value="0">Hawaii — 0%</option>
+        <option value="0">Idaho — 0%</option>
+        <option value="0.0495">Illinois — 4.95%</option>
+        <option value="0.0305">Indiana — 3.05%</option>
+        <option value="0.04">Iowa — 4.0%</option>
+        <option value="0">Kansas — 0%</option>
+        <option value="0.045">Kentucky — 4.5%</option>
+        <option value="0">Louisiana — 0%</option>
+        <option value="0.055">Maine — 5.5%</option>
+        <option value="0.0575">Maryland — 5.75%</option>
+        <option value="0.05">Massachusetts — 5.0%</option>
+        <option value="0.0407">Michigan — 4.07%</option>
+        <option value="0.075">Minnesota — 7.5%</option>
+        <option value="0.05">Mississippi — 5.0%</option>
+        <option value="0">Missouri — 0%</option>
+        <option value="0">Montana — 0%</option>
+        <option value="0">Nebraska — 0%</option>
+        <option value="0">Nevada — 0%</option>
+        <option value="0">New Hampshire — 0%</option>
+        <option value="0.06">New Jersey — 6.0%</option>
+        <option value="0.049">New Mexico — 4.9%</option>
+        <option value="0.04">New York — 4.0%</option>
+        <option value="0.0499">North Carolina — 4.99%</option>
+        <option value="0">North Dakota — 0%</option>
+        <option value="0.028">Ohio — 2.8%</option>
+        <option value="0">Oklahoma — 0%</option>
+        <option value="0">Oregon — 0%</option>
+        <option value="0.0307">Pennsylvania — 3.07%</option>
+        <option value="0.0599">Rhode Island — 5.99%</option>
+        <option value="0.07">South Carolina — 7.0%</option>
+        <option value="0">South Dakota — 0%</option>
+        <option value="0.0375">Tennessee — 3.75%</option>
+        <option value="0">Texas — 0%</option>
+        <option value="0.0465">Utah — 4.65%</option>
+        <option value="0">Vermont — 0%</option>
+        <option value="0.0575">Virginia — 5.75%</option>
+        <option value="0">Washington — 0%</option>
+        <option value="0.065">West Virginia — 6.5%</option>
+        <option value="0.045">Wisconsin — 4.5%</option>
+        <option value="0">Wyoming — 0%</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="status">Filing status</label>
+      <select class="input" id="status">
+        <option value="single">Single</option>
+        <option value="married">Married filing jointly</option>
+        <option value="hoh">Head of household</option>
+      </select>
+    </div>
+    <button class="btn" id="calc">Calculate take-home pay</button>
+
+    <div class="result hidden" id="result">
+      <div class="big">Estimated take-home pay</div>
+      <div class="num" id="result-num">$0.00</div>
+      <div class="break">
+        <div class="b"><div class="bl">Federal tax</div><div class="bv" id="federal">$0.00</div></div>
+        <div class="b"><div class="bl">FICA (SS + Medicare)</div><div class="bv" id="fica">$0.00</div></div>
+        <div class="b"><div class="bl">State tax</div><div class="bv" id="state-tax">$0.00</div></div>
+        <div class="b"><div class="bl">Total tax</div><div class="bv" id="total-tax">$0.00</div></div>
+      </div>
+      <div class="note">Estimates use 2026 federal brackets, standard deduction, and a flat state estimate. Actual results vary.</div>
+    </div>
+  </div>
+
+  <section class="section">
+    <h2>What is take-home pay?</h2>
+    <p>Take-home pay (or net pay) is the money left after federal income tax, FICA (Social Security + Medicare), and state income tax are withheld from your gross salary. It is what actually lands in your bank account.</p>
+    <div class="callout"><strong>Take-home = Gross − Federal − FICA − State</strong></div>
+    <p>In 2026, FICA is 7.65% of wages (6.2% Social Security up to $184,500, plus 1.45% Medicare). The standard deduction is $16,100 for single filers, $32,200 for married filing jointly, and $24,150 for head of household.</p>
+    <p>This calculator applies the standard deduction and 2026 federal brackets, then subtracts FICA and an estimated flat state rate. It is a solid estimate — not a substitute for a tax professional.</p>
+  </section>
+
+  <div class="disclaimer">This is an educational estimate using 2026 federal rates, the standard deduction, and approximate state income tax rates. It does not account for itemized deductions, credits, city taxes, retirement contributions, or benefits. Actual withholding depends on your W-4 and employer. Consult a tax professional.</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  // 2026 federal brackets (taxable income), progressive
+  var BRACKETS = {
+    single:  [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[640600,.35],[Infinity,.37]],
+    married: [[24800,.10],[100800,.12],[211400,.22],[403550,.24],[512450,.32],[768700,.35],[Infinity,.37]],
+    hoh:     [[17700,.10],[67450,.12],[105700,.22],[201750,.24],[256200,.32],[640600,.35],[Infinity,.37]]
+  };
+  var STD = {single:16100, married:32200, hoh:24150};
+  var SS_WAGE_BASE = 184500;
+  var SS_RATE = 0.062;
+  var MED_RATE = 0.0145;
+
+  function fmt(n){return "$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}
+
+  function federalTax(taxable, status){
+    var b=BRACKETS[status];
+    var prev=0, tax=0;
+    for(var i=0;i<b.length;i++){
+      var upper=b[i][0], rate=b[i][1];
+      if(taxable>upper){
+        tax+=(upper-prev)*rate;
+        prev=upper;
+      } else {
+        tax+=(taxable-prev)*rate;
+        break;
+      }
+    }
+    return tax;
+  }
+
+  function compute(){
+    var gross=parseFloat(document.getElementById("gross").value);
+    var stateRate=parseFloat(document.getElementById("state").value);
+    var status=document.getElementById("status").value;
+    var num=document.getElementById("result-num");
+    if(isNaN(gross)||gross<0){
+      num.textContent="—";
+      document.getElementById("federal").textContent="$0.00";
+      document.getElementById("fica").textContent="$0.00";
+      document.getElementById("state-tax").textContent="$0.00";
+      document.getElementById("total-tax").textContent="$0.00";
+      result.classList.remove("hidden");return;
+    }
+    var taxable=Math.max(0, gross-STD[status]);
+    var fed=federalTax(taxable, status);
+    var ss=Math.min(gross, SS_WAGE_BASE)*SS_RATE;
+    var med=gross*MED_RATE;
+    var fica=ss+med;
+    var state=gross*stateRate;
+    var total=fed+fica+state;
+    var take=gross-total;
+    num.textContent=fmt(Math.max(0,take));
+    document.getElementById("federal").textContent=fmt(fed);
+    document.getElementById("fica").textContent=fmt(fica);
+    document.getElementById("state-tax").textContent=fmt(state);
+    document.getElementById("total-tax").textContent=fmt(total);
+    result.classList.remove("hidden");
+  }
+
+  document.getElementById("calc").addEventListener("click",compute);
+  ["gross"].forEach(function(id){
+    document.getElementById(id).addEventListener("keydown",function(e){if(e.key==="Enter")compute();});
+  });
+})();
+</script>
+</body>
+</html>
