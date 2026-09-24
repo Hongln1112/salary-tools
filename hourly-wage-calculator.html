@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hourly Wage Calculator — Convert Annual Salary to Hourly Rate</title>
+<meta name="description" content="Free hourly wage calculator: convert your annual salary to an hourly rate in seconds. Adjust hours per week and weeks per year, and compare with the US minimum wage.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%B8%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#f4f7fb;--card:#ffffff;--ink:#1c2a3a;--muted:#5b6b7b;--brand:#1f6feb;--brand-dark:#155ab8;
+    --good:#1a9e5c;--bad:#d0453e;--line:#e4eaf1;--radius:16px;--shadow:0 8px 28px rgba(28,42,58,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 18px 48px;}
+  header.top{padding:6px 0 22px;}
+  header.top .brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);}
+  header.top .brand span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand);}
+  h1{font-size:clamp(26px,4.5vw,34px);font-weight:800;letter-spacing:-.5px;line-height:1.25;margin:12px 0 10px;}
+  .sub{font-size:16px;color:var(--muted);max-width:600px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 24px;margin-top:26px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .field .hint{font-size:12px;color:var(--muted);font-weight:400;}
+  .input{width:100%;padding:13px 14px;font-size:16px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;outline:none;transition:border-color .15s;}
+  .input:focus{border-color:var(--brand);background:#fff;}
+  .prefix{position:relative;}
+  .prefix .sign{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);}
+  .prefix .input{padding-left:32px;}
+  .btn{width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:11px;cursor:pointer;margin-top:6px;transition:background .15s;}
+  .btn:hover{background:var(--brand-dark);}
+  .result{margin-top:24px;border-top:1px solid var(--line);padding-top:20px;}
+  .result.hidden{display:none;}
+  .result .big{font-size:15px;color:var(--muted);font-weight:600;}
+  .result .num{font-size:clamp(38px,8vw,48px);font-weight:800;letter-spacing:-1px;color:var(--brand);line-height:1.1;margin-top:4px;}
+  .badge{display:inline-flex;align-items:center;gap:7px;margin-top:14px;padding:9px 14px;border-radius:10px;font-size:14px;font-weight:600;}
+  .badge.good{background:#e7f7ef;color:var(--good);}
+  .badge.bad{background:#fdecea;color:var(--bad);}
+  .badge svg{flex:none;}
+  .note{font-size:13px;color:var(--muted);margin-top:12px;}
+  .section{margin-top:40px;}
+  .section h2{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:12px;}
+  .section p{font-size:15px;color:#33455a;margin-bottom:12px;}
+  .callout{background:#eef5ff;border-left:4px solid var(--brand);padding:14px 16px;border-radius:10px;margin:14px 0;}
+  .callout strong{color:var(--brand-dark);}
+  .back{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;}
+  .disclaimer{font-size:12.5px;color:#8a99a8;margin-top:24px;line-height:1.7;}
+  @media (max-width:520px){.card{padding:20px 16px;}.wrap{padding:20px 14px 40px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← All pay tools</a>
+  <header class="top">
+    <div class="brand"><span></span> Salary &amp; Pay Tools</div>
+    <h1>Hourly Wage Calculator</h1>
+    <p class="sub">Convert your annual salary into an hourly rate — or the other way around — and compare it with the US minimum wage.</p>
+  </header>
+
+  <div class="card">
+    <div class="field">
+      <label for="annual">Annual salary <span class="hint">(before taxes)</span></label>
+      <div class="prefix"><span class="sign">$</span><input class="input" id="annual" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 52000"></div>
+    </div>
+    <div class="field">
+      <label for="hours">Hours per week</label>
+      <input class="input" id="hours" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 40" value="40">
+    </div>
+    <div class="field">
+      <label for="weeks">Weeks worked per year</label>
+      <input class="input" id="weeks" type="number" inputmode="decimal" min="0" max="52" step="any" placeholder="e.g. 52" value="52">
+    </div>
+    <button class="btn" id="calc">Calculate hourly rate</button>
+
+    <div class="result hidden" id="result">
+      <div class="big">Your hourly rate</div>
+      <div class="num" id="result-num">$0.00</div>
+      <div class="badge" id="result-badge"></div>
+      <div class="note">Result shown before taxes.</div>
+    </div>
+  </div>
+
+  <section class="section">
+    <h2>How to calculate your hourly rate</h2>
+    <div class="callout"><strong>Hourly rate = Annual salary ÷ (Hours per week × Weeks per year)</strong></div>
+    <p>A salary of $52,000 at 40 hours per week and 52 weeks per year equals about <strong>$25.00 per hour</strong>. Use the calculator above with your own numbers.</p>
+    <p>The federal minimum wage is $7.25 per hour, but many states set a higher minimum — for example, Washington State's 2026 minimum wage is <strong>$17.13/hour</strong>. Check where you work.</p>
+  </section>
+
+  <div class="disclaimer">This tool estimates hourly pay on a simple before-tax basis and does not account for taxes, overtime, deductions or benefits. Minimum wage figures may change; verify with your state.</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var FEDERAL_MIN = 7.25;
+  var result = document.getElementById("result");
+  function fmt(n){return "$" + n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function badgeHtml(ok){
+    var check='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+    var cross='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+    return ok ? '<span class="badge good">'+check+' Above the federal minimum wage ($7.25)</span>'
+              : '<span class="badge bad">'+cross+' Below the federal minimum wage ($7.25)</span>';
+  }
+  function compute(){
+    var annual=parseFloat(document.getElementById("annual").value);
+    var hours=parseFloat(document.getElementById("hours").value);
+    var weeks=parseFloat(document.getElementById("weeks").value);
+    var num=document.getElementById("result-num");
+    var badge=document.getElementById("result-badge");
+    if(isNaN(annual)||annual<0||!hours||hours<=0||!weeks||weeks<=0){
+      num.textContent="—";
+      badge.innerHTML='<span class="badge bad">Please enter a salary and positive hours / weeks</span>';
+      result.classList.remove("hidden");return;
+    }
+    var rate=annual/(hours*weeks);
+    num.textContent=fmt(rate);
+    badge.innerHTML=badgeHtml(rate>=FEDERAL_MIN);
+    result.classList.remove("hidden");
+  }
+  document.getElementById("calc").addEventListener("click",compute);
+  document.getElementById("annual").addEventListener("keydown",function(e){if(e.key==="Enter")compute();});
+  document.getElementById("hours").addEventListener("keydown",function(e){if(e.key==="Enter")compute();});
+  document.getElementById("weeks").addEventListener("keydown",function(e){if(e.key==="Enter")compute();});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overtime Pay Calculator — Calculate Weekly Pay with Overtime</title>
+<meta name="description" content="Free overtime pay calculator: enter your hourly rate, regular and overtime hours, and see your total weekly pay. Handles time-and-a-half and double-time rates.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%95%90%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#f4f7fb;--card:#ffffff;--ink:#1c2a3a;--muted:#5b6b7b;--brand:#1f6feb;--brand-dark:#155ab8;
+    --line:#e4eaf1;--radius:16px;--shadow:0 8px 28px rgba(28,42,58,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 18px 48px;}
+  header.top{padding:6px 0 22px;}
+  header.top .brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);}
+  header.top .brand span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand);}
+  h1{font-size:clamp(26px,4.5vw,34px);font-weight:800;letter-spacing:-.5px;line-height:1.25;margin:12px 0 10px;}
+  .sub{font-size:16px;color:var(--muted);max-width:600px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 24px;margin-top:26px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .field .hint{font-size:12px;color:var(--muted);font-weight:400;}
+  .input{width:100%;padding:13px 14px;font-size:16px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;outline:none;transition:border-color .15s;}
+  .input:focus{border-color:var(--brand);background:#fff;}
+  .prefix{position:relative;}
+  .prefix .sign{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);}
+  .prefix .input{padding-left:32px;}
+  .btn{width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:11px;cursor:pointer;margin-top:6px;transition:background .15s;}
+  .btn:hover{background:var(--brand-dark);}
+  .result{margin-top:24px;border-top:1px solid var(--line);padding-top:20px;}
+  .result.hidden{display:none;}
+  .result .big{font-size:15px;color:var(--muted);font-weight:600;}
+  .result .num{font-size:clamp(38px,8vw,48px);font-weight:800;letter-spacing:-1px;color:var(--brand);line-height:1.1;margin-top:4px;}
+  .break{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px;}
+  .break .b{background:#f4f7fb;border-radius:10px;padding:12px;}
+  .break .bl{font-size:12px;color:var(--muted);font-weight:600;}
+  .break .bv{font-size:18px;font-weight:700;margin-top:4px;}
+  .note{font-size:13px;color:var(--muted);margin-top:12px;}
+  .section{margin-top:40px;}
+  .section h2{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:12px;}
+  .section p{font-size:15px;color:#33455a;margin-bottom:12px;}
+  .callout{background:#eef5ff;border-left:4px solid var(--brand);padding:14px 16px;border-radius:10px;margin:14px 0;}
+  .back{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;}
+  .disclaimer{font-size:12.5px;color:#8a99a8;margin-top:24px;line-height:1.7;}
+  @media (max-width:520px){.card{padding:20px 16px;}.wrap{padding:20px 14px 40px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← All pay tools</a>
+  <header class="top">
+    <div class="brand"><span></span> Salary &amp; Pay Tools</div>
+    <h1>Overtime Pay Calculator</h1>
+    <p class="sub">Enter your hourly rate and your hours — including overtime — to see exactly what your weekly paycheck should be.</p>
+  </header>
+
+  <div class="card">
+    <div class="field">
+      <label for="rate">Hourly rate <span class="hint">(before taxes)</span></label>
+      <div class="prefix"><span class="sign">$</span><input class="input" id="rate" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 20.00"></div>
+    </div>
+    <div class="field">
+      <label for="reg">Regular hours this week</label>
+      <input class="input" id="reg" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 40" value="40">
+    </div>
+    <div class="field">
+      <label for="ot">Overtime hours <span class="hint">(usually hours over 40)</span></label>
+      <input class="input" id="ot" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 5" value="0">
+    </div>
+    <div class="field">
+      <label for="mult">Overtime multiplier <span class="hint">(time-and-a-half = 1.5)</span></label>
+      <input class="input" id="mult" type="number" inputmode="decimal" min="1" step="any" placeholder="e.g. 1.5" value="1.5">
+    </div>
+    <button class="btn" id="calc">Calculate weekly pay</button>
+
+    <div class="result hidden" id="result">
+      <div class="big">Your total weekly pay</div>
+      <div class="num" id="result-num">$0.00</div>
+      <div class="break">
+        <div class="b"><div class="bl">Regular pay</div><div class="bv" id="reg-pay">$0.00</div></div>
+        <div class="b"><div class="bl">Overtime pay</div><div class="bv" id="ot-pay">$0.00</div></div>
+      </div>
+      <div class="note">Shown before taxes. Most US employers pay 1.5× for hours over 40 per week.</div>
+    </div>
+  </div>
+
+  <section class="section">
+    <h2>How overtime pay works</h2>
+    <p>Under the federal <strong>Fair Labor Standards Act (FLSA)</strong>, most hourly employees earn <strong>1.5 times</strong> their regular rate for hours worked beyond 40 in a workweek — this is called <strong>time-and-a-half</strong>. Some jobs, holidays or agreements use <strong>double time (2×)</strong> instead.</p>
+    <div class="callout"><strong>Weekly pay = (Regular hours × Rate) + (Overtime hours × Rate × Multiplier)</strong></div>
+    <p>Example: a $20/hour rate, 40 regular hours and 5 overtime hours at 1.5× gives <strong>$950</strong> that week ($800 regular + $150 overtime).</p>
+  </section>
+
+  <div class="disclaimer">This tool estimates gross weekly pay and does not account for taxes, deductions, or state-specific overtime rules. Some states have additional overtime laws. Verify with your employer or state labor department.</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var result=document.getElementById("result");
+  function fmt(n){return "$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function compute(){
+    var rate=parseFloat(document.getElementById("rate").value);
+    var reg=parseFloat(document.getElementById("reg").value);
+    var ot=parseFloat(document.getElementById("ot").value);
+    var mult=parseFloat(document.getElementById("mult").value);
+    var num=document.getElementById("result-num");
+    if(isNaN(rate)||rate<0||reg<0||ot<0||isNaN(mult)||mult<1){
+      num.textContent="—";
+      document.getElementById("reg-pay").textContent="$0.00";
+      document.getElementById("ot-pay").textContent="$0.00";
+      result.classList.remove("hidden");return;
+    }
+    var regPay=rate*reg;
+    var otPay=rate*mult*ot;
+    var total=regPay+otPay;
+    num.textContent=fmt(total);
+    document.getElementById("reg-pay").textContent=fmt(regPay);
+    document.getElementById("ot-pay").textContent=fmt(otPay);
+    result.classList.remove("hidden");
+  }
+  document.getElementById("calc").addEventListener("click",compute);
+  ["rate","reg","ot","mult"].forEach(function(id){
+    document.getElementById(id).addEventListener("keydown",function(e){if(e.key==="Enter")compute();});
+  });
+})();
+</script>
+</body>
+</html>

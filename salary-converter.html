@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salary Converter — Convert Hourly, Weekly, Monthly and Annual Pay</title>
+<meta name="description" content="Free salary converter: convert your pay between hourly, weekly, monthly and annual figures in either direction. Adjust hours per week and weeks per year.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%84%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#f4f7fb;--card:#ffffff;--ink:#1c2a3a;--muted:#5b6b7b;--brand:#1f6feb;--brand-dark:#155ab8;
+    --line:#e4eaf1;--radius:16px;--shadow:0 8px 28px rgba(28,42,58,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 18px 48px;}
+  header.top{padding:6px 0 22px;}
+  header.top .brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);}
+  header.top .brand span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand);}
+  h1{font-size:clamp(26px,4.5vw,34px);font-weight:800;letter-spacing:-.5px;line-height:1.25;margin:12px 0 10px;}
+  .sub{font-size:16px;color:var(--muted);max-width:600px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 24px;margin-top:26px;}
+  .tabs{display:flex;gap:6px;background:#eef3f9;padding:5px;border-radius:12px;margin-bottom:22px;}
+  .tab{flex:1;text-align:center;padding:10px 8px;font-size:14px;font-weight:600;color:var(--muted);border-radius:9px;cursor:pointer;transition:all .15s;border:none;background:transparent;}
+  .tab.active{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(28,42,58,.08);}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .field .hint{font-size:12px;color:var(--muted);font-weight:400;}
+  .input{width:100%;padding:13px 14px;font-size:16px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;outline:none;transition:border-color .15s;}
+  .input:focus{border-color:var(--brand);background:#fff;}
+  .prefix{position:relative;}
+  .prefix .sign{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);}
+  .prefix .input{padding-left:32px;}
+  .btn{width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:11px;cursor:pointer;margin-top:6px;transition:background .15s;}
+  .btn:hover{background:var(--brand-dark);}
+  .result{margin-top:24px;border-top:1px solid var(--line);padding-top:20px;}
+  .result.hidden{display:none;}
+  .result .big{font-size:15px;color:var(--muted);font-weight:600;}
+  .result .num{font-size:clamp(38px,8vw,48px);font-weight:800;letter-spacing:-1px;color:var(--brand);line-height:1.1;margin-top:4px;}
+  .note{font-size:13px;color:var(--muted);margin-top:12px;}
+  .section{margin-top:40px;}
+  .section h2{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:12px;}
+  .section p{font-size:15px;color:#33455a;margin-bottom:12px;}
+  .callout{background:#eef5ff;border-left:4px solid var(--brand);padding:14px 16px;border-radius:10px;margin:14px 0;}
+  .back{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;}
+  .disclaimer{font-size:12.5px;color:#8a99a8;margin-top:24px;line-height:1.7;}
+  @media (max-width:520px){.card{padding:20px 16px;}.wrap{padding:20px 14px 40px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← All pay tools</a>
+  <header class="top">
+    <div class="brand"><span></span> Salary &amp; Pay Tools</div>
+    <h1>Salary Converter</h1>
+    <p class="sub">See your pay across different time periods — hourly, weekly, monthly and annual — starting from whichever figure you know.</p>
+  </header>
+
+  <div class="card">
+    <div class="tabs" role="tablist">
+      <button class="tab active" id="tab-annual" role="tab">From Annual</button>
+      <button class="tab" id="tab-hourly" role="tab">From Hourly</button>
+    </div>
+
+    <!-- From annual -->
+    <div id="panel-annual">
+      <div class="field">
+        <label for="annual">Annual salary <span class="hint">(before taxes)</span></label>
+        <div class="prefix"><span class="sign">$</span><input class="input" id="annual" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 52000"></div>
+      </div>
+      <div class="field">
+        <label for="hours">Hours per week</label>
+        <input class="input" id="hours" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 40" value="40">
+      </div>
+      <div class="field">
+        <label for="weeks">Weeks worked per year</label>
+        <input class="input" id="weeks" type="number" inputmode="decimal" min="0" max="52" step="any" placeholder="e.g. 52" value="52">
+      </div>
+      <button class="btn" id="calc-annual">Convert</button>
+    </div>
+
+    <!-- From hourly -->
+    <div id="panel-hourly" style="display:none;">
+      <div class="field">
+        <label for="rate">Hourly rate <span class="hint">(before taxes)</span></label>
+        <div class="prefix"><span class="sign">$</span><input class="input" id="rate" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 25.00"></div>
+      </div>
+      <div class="field">
+        <label for="hours2">Hours per week</label>
+        <input class="input" id="hours2" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 40" value="40">
+      </div>
+      <div class="field">
+        <label for="weeks2">Weeks worked per year</label>
+        <input class="input" id="weeks2" type="number" inputmode="decimal" min="0" max="52" step="any" placeholder="e.g. 52" value="52">
+      </div>
+      <button class="btn" id="calc-hourly">Convert</button>
+    </div>
+
+    <div class="result hidden" id="result">
+      <div class="break" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;">
+        <div style="background:#f4f7fb;border-radius:10px;padding:12px;"><div style="font-size:12px;color:var(--muted);font-weight:600;">Hourly</div><div style="font-size:18px;font-weight:700;margin-top:4px;" id="r-hourly">—</div></div>
+        <div style="background:#f4f7fb;border-radius:10px;padding:12px;"><div style="font-size:12px;color:var(--muted);font-weight:600;">Weekly</div><div style="font-size:18px;font-weight:700;margin-top:4px;" id="r-weekly">—</div></div>
+        <div style="background:#f4f7fb;border-radius:10px;padding:12px;"><div style="font-size:12px;color:var(--muted);font-weight:600;">Monthly</div><div style="font-size:18px;font-weight:700;margin-top:4px;" id="r-monthly">—</div></div>
+        <div style="background:#f4f7fb;border-radius:10px;padding:12px;"><div style="font-size:12px;color:var(--muted);font-weight:600;">Annual</div><div style="font-size:18px;font-weight:700;margin-top:4px;" id="r-annual">—</div></div>
+      </div>
+      <div class="note">Shown before taxes.</div>
+    </div>
+  </div>
+
+  <section class="section">
+    <h2>How the conversion works</h2>
+    <div class="callout"><strong>Annual = Hourly × Hours/week × Weeks/year</strong></div>
+    <p>From that single relationship, every other figure follows: <strong>Weekly = Annual ÷ 52</strong>, and <strong>Monthly = Annual ÷ 12</strong>. Pick whichever number you already know, and the converter fills in the rest.</p>
+    <p>Example: $25/hour, 40 hours a week and 52 weeks a year equals about <strong>$52,000 a year</strong>, $1,000 a week, and $4,333 a month.</p>
+  </section>
+
+  <div class="disclaimer">This tool converts gross pay between time periods on a simple basis and does not account for taxes, deductions or benefits. Monthly figures are annual ÷ 12 for simplicity.</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var tabA=document.getElementById("tab-annual");
+  var tabH=document.getElementById("tab-hourly");
+  var panelA=document.getElementById("panel-annual");
+  var panelH=document.getElementById("panel-hourly");
+  var result=document.getElementById("result");
+  function fmt(n){return "$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function switchTab(mode){
+    var annual=mode==="annual";
+    tabA.classList.toggle("active",annual);
+    tabH.classList.toggle("active",!annual);
+    panelA.style.display=annual?"":"none";
+    panelH.style.display=annual?"none":"";
+    result.classList.add("hidden");
+  }
+  tabA.addEventListener("click",function(){switchTab("annual");});
+  tabH.addEventListener("click",function(){switchTab("hourly");});
+
+  function show(v){
+    document.getElementById("r-hourly").textContent=fmt(v.hourly);
+    document.getElementById("r-weekly").textContent=fmt(v.weekly);
+    document.getElementById("r-monthly").textContent=fmt(v.monthly);
+    document.getElementById("r-annual").textContent=fmt(v.annual);
+    result.classList.remove("hidden");
+  }
+  function calcAnnual(){
+    var annual=parseFloat(document.getElementById("annual").value);
+    var hours=parseFloat(document.getElementById("hours").value);
+    var weeks=parseFloat(document.getElementById("weeks").value);
+    if(isNaN(annual)||annual<0||!hours||hours<=0||!weeks||weeks<=0){return;}
+    var hourly=annual/(hours*weeks);
+    show({hourly:hourly,weekly:annual/52,monthly:annual/12,annual:annual});
+  }
+  function calcHourly(){
+    var rate=parseFloat(document.getElementById("rate").value);
+    var hours=parseFloat(document.getElementById("hours2").value);
+    var weeks=parseFloat(document.getElementById("weeks2").value);
+    if(isNaN(rate)||rate<0||!hours||hours<=0||!weeks||weeks<=0){return;}
+    var annual=rate*hours*weeks;
+    show({hourly:rate,weekly:annual/52,monthly:annual/12,annual:annual});
+  }
+  document.getElementById("calc-annual").addEventListener("click",calcAnnual);
+  document.getElementById("calc-hourly").addEventListener("click",calcHourly);
+  ["annual","hours","weeks","rate","hours2","weeks2"].forEach(function(id){
+    var el=document.getElementById(id);
+    el.addEventListener("keydown",function(e){
+      if(e.key==="Enter"){
+        if(id==="annual"||id==="hours"||id==="weeks"){calcAnnual();}
+        else{calcHourly();}
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
