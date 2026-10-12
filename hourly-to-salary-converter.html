@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hourly to Salary Calculator — Convert Hourly Pay to Annual Salary</title>
+<meta name="description" content="Free hourly to salary calculator: convert your hourly rate into annual, monthly, and weekly pay. See what $15, $20, $25, or any hourly rate really earns per year.">
+<link rel="canonical" href="https://salary-tools-three.vercel.app/hourly-to-salary-converter.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%B8%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#f4f7fb;--card:#ffffff;--ink:#1c2a3a;--muted:#5b6b7b;--brand:#1f6feb;--brand-dark:#155ab8;
+    --good:#1a9e5c;--bad:#d0453e;--line:#e4eaf1;--radius:16px;--shadow:0 8px 28px rgba(28,42,58,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 18px 48px;}
+  header.top{padding:6px 0 22px;}
+  header.top .brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);}
+  header.top .brand span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand);}
+  h1{font-size:clamp(26px,4.5vw,34px);font-weight:800;letter-spacing:-.5px;line-height:1.25;margin:12px 0 10px;}
+  .sub{font-size:16px;color:var(--muted);max-width:600px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 24px;margin-top:26px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .field .hint{font-size:12px;color:var(--muted);font-weight:400;}
+  .input{width:100%;padding:13px 14px;font-size:16px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;outline:none;transition:border-color .15s;}
+  .input:focus{border-color:var(--brand);background:#fff;}
+  .prefix{position:relative;}
+  .prefix .sign{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);}
+  .prefix .input{padding-left:32px;}
+  .btn{width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:11px;cursor:pointer;margin-top:6px;transition:background .15s;}
+  .btn:hover{background:var(--brand-dark);}
+  .result{margin-top:24px;border-top:1px solid var(--line);padding-top:20px;}
+  .result.hidden{display:none;}
+  .result .big{font-size:15px;color:var(--muted);font-weight:600;}
+  .result .num{font-size:clamp(38px,8vw,48px);font-weight:800;letter-spacing:-1px;color:var(--brand);line-height:1.1;margin-top:4px;}
+  .result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .result-row:last-child{border-bottom:none;}
+  .result-row .label{color:var(--muted);}
+  .result-row .val{font-weight:700;}
+  .quick-table{margin-top:20px;width:100%;border-collapse:collapse;font-size:14px;}
+  .quick-table th{text-align:left;padding:8px 12px;background:#f4f7fb;font-weight:600;border-bottom:2px solid var(--line);}
+  .quick-table td{padding:8px 12px;border-bottom:1px solid var(--line);}
+  .section{margin-top:40px;}
+  .section h2{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:12px;}
+  .section p{font-size:15px;color:#33455a;margin-bottom:12px;}
+  .back{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;}
+  .disclaimer{font-size:12.5px;color:#8a99a8;margin-top:24px;line-height:1.7;}
+  .faq-item{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+  .faq-q{width:100%;text-align:left;background:none;border:none;padding:16px 18px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .faq-q .chev{color:var(--brand);font-size:12px;transition:transform .2s;}
+  .faq-item.open .chev{transform:rotate(180deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-item.open .faq-a{max-height:400px;}
+  .faq-a p{padding:0 18px 16px;font-size:14px;color:#33455a;margin:0;}
+  @media (max-width:520px){.card{padding:20px 16px;}.wrap{padding:20px 14px 40px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← All pay tools</a>
+  <header class="top">
+    <div class="brand"><span></span> Salary &amp; Pay Tools</div>
+    <h1>Hourly to Salary Calculator</h1>
+    <p class="sub">Convert any hourly rate into annual, monthly, and weekly pay — and see how it stacks up against common rates like $15, $20, or $25 an hour.</p>
+  </header>
+
+  <div class="card">
+    <div class="field">
+      <label for="hourly">Hourly rate</label>
+      <div class="prefix"><span class="sign">$</span><input class="input" id="hourly" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 20"></div>
+    </div>
+    <div class="field">
+      <label for="hours">Hours per week</label>
+      <input class="input" id="hours" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 40" value="40">
+    </div>
+    <div class="field">
+      <label for="weeks">Weeks per year <span class="hint">(standard is 52, adjust for PTO)</span></label>
+      <input class="input" id="weeks" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 52" value="52">
+    </div>
+    <button class="btn" onclick="calc()">Calculate Annual Salary</button>
+
+    <div class="result hidden" id="result">
+      <div class="big">Your annual salary</div>
+      <div class="num" id="annual">$0</div>
+      <div style="margin-top:20px;">
+        <div class="result-row"><span class="label">Weekly pay</span><span class="val" id="weekly">$0</span></div>
+        <div class="result-row"><span class="label">Monthly pay</span><span class="val" id="monthly">$0</span></div>
+        <div class="result-row"><span class="label">Daily pay (8h)</span><span class="val" id="daily">$0</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:14px;">Quick reference (40 hrs/week, 52 weeks)</h2>
+    <table class="quick-table">
+      <tr><th>Hourly</th><th>Annual</th><th>Monthly</th></tr>
+      <tr><td>$15</td><td>$31,200</td><td>$2,600</td></tr>
+      <tr><td>$20</td><td>$41,600</td><td>$3,467</td></tr>
+      <tr><td>$25</td><td>$52,000</td><td>$4,333</td></tr>
+      <tr><td>$30</td><td>$62,400</td><td>$5,200</td></tr>
+      <tr><td>$40</td><td>$83,200</td><td>$6,933</td></tr>
+      <tr><td>$50</td><td>$104,000</td><td>$8,667</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>FAQ</h2>
+    <div class="faq-item">
+      <button class="faq-q">How do I calculate annual salary from hourly? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Multiply your hourly rate by 40 (hours per week), then by 52 (weeks per year). Example: $20/hr × 40 × 52 = $41,600/year.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Should I use 50 or 52 weeks? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>52 is standard. If you get 2 weeks of unpaid time off, use 50. If you get paid vacation, keep 52 — you're still earning during those weeks.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Is $20 an hour a good wage? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>$20/hr = $41,600/year. That's above the US federal poverty line for a household of two, but tight in expensive cities like San Francisco or New York. In most of the country, it's a decent entry-level wage.</p></div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    This calculator provides estimates for general guidance only. Actual take-home pay depends on taxes, deductions, overtime, and benefits. Always confirm your pay details with your employer.
+  </div>
+</div>
+
+<script>
+function calc(){
+  var hourly=parseFloat(document.getElementById('hourly').value)||0;
+  var hours=parseFloat(document.getElementById('hours').value)||0;
+  var weeks=parseFloat(document.getElementById('weeks').value)||0;
+  var weekly=hourly*hours;
+  var annual=weekly*weeks;
+  var monthly=annual/12;
+  var daily=hourly*8;
+  document.getElementById('result').classList.remove('hidden');
+  document.getElementById('annual').textContent='$'+annual.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+  document.getElementById('weekly').textContent='$'+weekly.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+  document.getElementById('monthly').textContent='$'+monthly.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+  document.getElementById('daily').textContent='$'+daily.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+}
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click',function(){q.parentElement.classList.toggle('open');});
+});
+</script>
+</body>
+</html>

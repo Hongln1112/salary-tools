@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freelance Hourly Rate Calculator — Set Your Freelance Rate (2026)</title>
+<meta name="description" content="Free freelance hourly rate calculator: work out what to charge per hour as a freelancer, contractor or consultant. Factor in expenses, taxes and holidays.">
+<link rel="canonical" href="https://salary-tools-three.vercel.app/freelance-hourly-rate.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%B8%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#f4f7fb;--card:#ffffff;--ink:#1c2a3a;--muted:#5b6b7b;
+    --brand:#1f6feb;--brand-dark:#155ab8;--good:#1a9e5c;--line:#e4eaf1;
+    --radius:16px;--shadow:0 8px 28px rgba(28,42,58,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 18px 48px;}
+  header.top{padding:6px 0 22px;}
+  header.top .brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.2px;}
+  header.top .brand span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand);}
+  h1{font-size:clamp(26px,4.5vw,34px);font-weight:800;letter-spacing:-.5px;line-height:1.25;margin:12px 0 10px;}
+  .sub{font-size:16px;color:var(--muted);max-width:600px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 24px;margin-top:26px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+  .field .hint{font-size:12px;color:var(--muted);font-weight:400;}
+  .input{width:100%;padding:13px 14px;font-size:16px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;color:var(--ink);outline:none;transition:border-color .15s;}
+  .input:focus{border-color:var(--brand);background:#fff;}
+  .prefix{position:relative;}
+  .prefix .sign{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);}
+  .prefix .input{padding-left:32px;}
+  .btn{width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:11px;cursor:pointer;margin-top:6px;transition:background .15s;}
+  .btn:hover{background:var(--brand-dark);}
+  .result{margin-top:24px;border-top:1px solid var(--line);padding-top:20px;}
+  .result.hidden{display:none;}
+  .result .big{font-size:15px;color:var(--muted);font-weight:600;}
+  .result .num{font-size:clamp(36px,8vw,46px);font-weight:800;letter-spacing:-1px;color:var(--brand);line-height:1.1;margin-top:4px;}
+  .breakdown{margin-top:18px;}
+  .breakdown div{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;}
+  .breakdown div:last-child{border-bottom:none;font-weight:700;color:var(--good);font-size:16px;}
+  .info h2{font-size:20px;font-weight:800;margin:28px 0 10px;}
+  .info p{font-size:15px;color:#33455a;margin-bottom:12px;}
+  .info ul{font-size:15px;color:#33455a;margin-left:22px;margin-bottom:12px;}
+  .info li{margin-bottom:8px;}
+  footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);text-align:center;font-size:13px;color:var(--muted);}
+  footer a{color:var(--brand);text-decoration:none;margin:0 6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><span></span> Salary &amp; Pay Tools</div>
+    <h1>Freelance Hourly Rate Calculator</h1>
+    <p class="sub">Work out what to charge per hour as a freelancer or contractor — based on your target income, expenses and how many billable hours you actually work.</p>
+  </header>
+
+  <div class="card">
+    <div class="field">
+      <label>Desired annual take-home income <span class="hint">(after tax)</span></label>
+      <div class="prefix"><span class="sign">$</span><input class="input" id="target" type="number" step="1000" placeholder="60000" value="60000"></div>
+    </div>
+    <div class="field">
+      <label>Estimated tax &amp; self-employment rate <span class="hint">(%)</span></label>
+      <input class="input" id="taxRate" type="number" step="1" placeholder="25" value="25">
+    </div>
+    <div class="field">
+      <label>Annual business expenses <span class="hint">(software, equipment, insurance)</span></label>
+      <div class="prefix"><span class="sign">$</span><input class="input" id="expenses" type="number" step="100" placeholder="5000" value="5000"></div>
+    </div>
+    <div class="field">
+      <label>Billable hours per week <span class="hint">(not all hours are billable)</span></label>
+      <input class="input" id="billable" type="number" step="1" placeholder="25" value="25">
+    </div>
+    <div class="field">
+      <label>Paid vacation weeks per year <span class="hint">(usually 4–6)</span></label>
+      <input class="input" id="vacation" type="number" step="1" placeholder="4" value="4">
+    </div>
+    <button class="btn" id="calc">Calculate your rate</button>
+
+    <div class="result hidden" id="result">
+      <div class="big">Recommended hourly rate</div>
+      <div class="num" id="rate">–</div>
+      <div class="breakdown" id="bd"></div>
+    </div>
+  </div>
+
+  <div class="info">
+    <h2>Why freelancers need a different rate formula</h2>
+    <p>As a freelancer or contractor, your hourly rate needs to cover far more than an employee's salary. You must factor in:</p>
+    <ul>
+      <li><strong>Taxes</strong> — you pay both the employee and employer side of FICA (self-employment tax).</li>
+      <li><strong>Expenses</strong> — software, tools, home office, health insurance, accounting.</li>
+      <li><strong>Vacation &amp; sick leave</strong> — you don't get paid time off, so you must bill for it.</li>
+      <li><strong>Non-billable hours</strong> — emails, marketing, admin don't earn money.</li>
+    </ul>
+    <h2>Example</h2>
+    <p>If you want $60,000 take-home, pay 25% tax, spend $5,000 on expenses, bill 25 hours/week and take 4 weeks vacation, your required rate works out to roughly <strong>$90–$100/hour</strong>. Employees often earn the equivalent of $40–$50/hour — freelancers charge more because they bear all these costs.</p>
+  </div>
+
+  <footer>
+    <a href="index.html">Home</a> ·
+    <a href="hourly-wage-calculator.html">Hourly Wage</a> ·
+    <a href="overtime-calculator.html">Overtime</a> ·
+    <a href="minimum-wage-calculator.html">Minimum Wage</a> ·
+    <a href="freelance-hourly-rate.html">Freelance Rate</a> ·
+    <a href="about.html">About</a> ·
+    <a href="privacy.html">Privacy</a>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var targetEl=document.getElementById("target"),
+      taxEl=document.getElementById("taxRate"),
+      expEl=document.getElementById("expenses"),
+      billEl=document.getElementById("billable"),
+      vacEl=document.getElementById("vacation"),
+      btn=document.getElementById("calc"),
+      result=document.getElementById("result"),
+      rateEl=document.getElementById("rate"),
+      bd=document.getElementById("bd");
+  function fmt(n){return "$"+n.toLocaleString("en-US",{minimumFractionDigits:0,maximumFractionDigits:0});}
+  function calc(){
+    var target=parseFloat(targetEl.value)||0,
+        tax=parseFloat(taxEl.value)/100||0.25,
+        exp=parseFloat(expEl.value)||0,
+        billable=parseFloat(billEl.value)||25,
+        vacation=parseFloat(vacEl.value)||4;
+    // gross needed = take-home / (1-tax) + expenses
+    var grossNeeded = target/(1-tax) + exp;
+    // billable weeks = 52 - vacation
+    var billableWeeks = 52 - vacation;
+    var annualBillableHours = billable * billableWeeks;
+    var rate = annualBillableHours ? grossNeeded/annualBillableHours : 0;
+    rateEl.textContent = fmt(rate)+"/hr";
+    bd.innerHTML = ""+
+      row("Total annual income needed", fmt(grossNeeded))+
+      row("Billable hours per year ("+billableWeeks+"w × "+billable+"h)", annualBillableHours.toLocaleString()+"h")+
+      row("Recommended hourly rate", fmt(rate)+"/hr");
+    result.classList.remove("hidden");
+  }
+  function row(label,value){return "<div><span>"+label+"</span><span>"+value+"</span></div>";}
+  btn.addEventListener("click",calc);
+})();
+</script>
+</body>
+</html>

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hourly Wage Calculator — Convert Annual Salary to Hourly Rate</title>
 <meta name="description" content="Free hourly wage calculator: convert your annual salary to an hourly rate in seconds. Adjust hours per week and weeks per year, and compare with the US minimum wage.">
+<link rel="canonical" href="https://salary-tools-three.vercel.app/hourly-wage-calculator.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%B8%3C/text%3E%3C/svg%3E">
 <style>
   :root{
@@ -46,6 +47,13 @@
   .callout strong{color:var(--brand-dark);}
   .back{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;}
   .disclaimer{font-size:12.5px;color:#8a99a8;margin-top:24px;line-height:1.7;}
+  .faq-item{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+  .faq-q{width:100%;text-align:left;background:none;border:none;padding:16px 18px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .faq-q .chev{color:var(--brand);font-size:12px;transition:transform .2s;}
+  .faq-item.open .chev{transform:rotate(180deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-item.open .faq-a{max-height:400px;}
+  .faq-a p{padding:0 18px 16px;font-size:14px;color:#33455a;margin:0;}
   @media (max-width:520px){.card{padding:20px 16px;}.wrap{padding:20px 14px 40px;}}
 </style>
 </head>
@@ -92,6 +100,26 @@
     <p>The federal minimum wage is $7.25 per hour, but many states set a higher minimum — for example, Washington State's 2026 minimum wage is <strong>$17.13/hour</strong>. Check where you work.</p>
   </section>
 
+  <section class="section">
+    <h2>Hourly wage FAQs</h2>
+    <div class="faq-item">
+      <button class="faq-q">How do I convert a salary to an hourly rate? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Divide your annual salary by the total hours you work in a year. For a standard 40-hour week over 52 weeks, that's 2,080 hours. So $52,000 ÷ 2,080 = $25/hour. Adjust the hours per week if you work fewer hours.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What is the federal minimum wage in 2026? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>The federal minimum wage is $7.25/hour, but 30+ states have set higher minimums. Washington State's is $17.13/hour in 2026. Your state's rate applies where you work.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Is my hourly rate before or after taxes? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>This calculator shows a before-tax rate. To see what you actually take home after federal, state and FICA taxes, use the Take-Home Pay Calculator.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How does overtime affect my hourly pay? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Overtime is typically paid at 1.5x (time-and-a-half) your regular rate after 40 hours. The Overtime Calculator adds that in automatically for your weekly pay.</p></div>
+    </div>
+  </section>
+
   <div class="disclaimer">This tool estimates hourly pay on a simple before-tax basis and does not account for taxes, overtime, deductions or benefits. Minimum wage figures may change; verify with your state.</div>
 </div>
 
@@ -127,6 +155,9 @@
   document.getElementById("annual").addEventListener("keydown",function(e){if(e.key==="Enter")compute();});
   document.getElementById("hours").addEventListener("keydown",function(e){if(e.key==="Enter")compute();});
   document.getElementById("weeks").addEventListener("keydown",function(e){if(e.key==="Enter")compute();});
+  document.querySelectorAll(".faq-q").forEach(function(q){
+    q.addEventListener("click",function(){q.parentElement.classList.toggle("open");});
+  });
 })();
 </script>
 

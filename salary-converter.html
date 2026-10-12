@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Salary Converter — Convert Hourly, Weekly, Monthly and Annual Pay</title>
 <meta name="description" content="Free salary converter: convert your pay between hourly, weekly, monthly and annual figures in either direction. Adjust hours per week and weeks per year.">
+<link rel="canonical" href="https://salary-tools-three.vercel.app/salary-converter.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%84%EF%B8%8F%3C/text%3E%3C/svg%3E">
 <style>
   :root{
@@ -44,6 +45,13 @@
   .callout{background:#eef5ff;border-left:4px solid var(--brand);padding:14px 16px;border-radius:10px;margin:14px 0;}
   .back{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;}
   .disclaimer{font-size:12.5px;color:#8a99a8;margin-top:24px;line-height:1.7;}
+  .faq-item{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+  .faq-q{width:100%;text-align:left;background:none;border:none;padding:16px 18px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .faq-q .chev{color:var(--brand);font-size:12px;transition:transform .2s;}
+  .faq-item.open .chev{transform:rotate(180deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-item.open .faq-a{max-height:400px;}
+  .faq-a p{padding:0 18px 16px;font-size:14px;color:#33455a;margin:0;}
   @media (max-width:520px){.card{padding:20px 16px;}.wrap{padding:20px 14px 40px;}}
 </style>
 </head>
@@ -118,6 +126,26 @@
     <p>Example: $25/hour, 40 hours a week and 52 weeks a year equals about <strong>$52,000 a year</strong>, $1,000 a week, and $4,333 a month.</p>
   </section>
 
+  <section class="section">
+    <h2>Salary conversion FAQs</h2>
+    <div class="faq-item">
+      <button class="faq-q">How do I convert an hourly wage to an annual salary? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Multiply your hourly rate by hours per week, then by weeks per year. $25/hour × 40 × 52 = $52,000/year. Use the Salary Converter with a full-time 40-hour, 52-week setup for the standard figure.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How many weeks should I use in a year? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>52 weeks is standard for full-time work. If you get unpaid time off, some people use 50 weeks. Adjust based on your actual paid weeks.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Is the monthly figure gross or net? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>This converter shows gross pay (before taxes) and uses annual ÷ 12 for simplicity. For the amount you actually keep, use the Take-Home Pay Calculator.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Why does my monthly pay vary between biweekly and monthly jobs? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Biweekly pay is 26 paychecks a year (sometimes 27), while semi-monthly is 24. A biweekly check is roughly annual ÷ 26, so it's smaller than a semi-monthly check of annual ÷ 24 even if the yearly total is the same.</p></div>
+    </div>
+  </section>
+
   <div class="disclaimer">This tool converts gross pay between time periods on a simple basis and does not account for taxes, deductions or benefits. Monthly figures are annual ÷ 12 for simplicity.</div>
 </div>
 
@@ -174,6 +202,9 @@
         else{calcHourly();}
       }
     });
+  });
+  document.querySelectorAll(".faq-q").forEach(function(q){
+    q.addEventListener("click",function(){q.parentElement.classList.toggle("open");});
   });
 })();
 </script>

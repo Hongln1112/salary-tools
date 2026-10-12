@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commission Calculator — Calculate Sales Commission &amp; Earnings</title>
+<meta name="description" content="Free commission calculator: calculate how much you earn from sales commission. Enter your sales amount, commission rate, and base salary to see total earnings.">
+<link rel="canonical" href="https://salary-tools-three.vercel.app/commission-calculator.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%B8%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#f4f7fb;--card:#ffffff;--ink:#1c2a3a;--muted:#5b6b7b;--brand:#1f6feb;--brand-dark:#155ab8;
+    --good:#1a9e5c;--bad:#d0453e;--line:#e4eaf1;--radius:16px;--shadow:0 8px 28px rgba(28,42,58,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 18px 48px;}
+  header.top{padding:6px 0 22px;}
+  header.top .brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);}
+  header.top .brand span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand);}
+  h1{font-size:clamp(26px,4.5vw,34px);font-weight:800;letter-spacing:-.5px;line-height:1.25;margin:12px 0 10px;}
+  .sub{font-size:16px;color:var(--muted);max-width:600px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 24px;margin-top:26px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .field .hint{font-size:12px;color:var(--muted);font-weight:400;}
+  .input{width:100%;padding:13px 14px;font-size:16px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;outline:none;transition:border-color .15s;}
+  .input:focus{border-color:var(--brand);background:#fff;}
+  .prefix{position:relative;}
+  .prefix .sign{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);}
+  .prefix .input{padding-left:32px;}
+  .suffix{position:relative;}
+  .suffix .sign{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);}
+  .suffix .input{padding-right:36px;}
+  .btn{width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:11px;cursor:pointer;margin-top:6px;transition:background .15s;}
+  .btn:hover{background:var(--brand-dark);}
+  .result{margin-top:24px;border-top:1px solid var(--line);padding-top:20px;}
+  .result.hidden{display:none;}
+  .result .big{font-size:15px;color:var(--muted);font-weight:600;}
+  .result .num{font-size:clamp(38px,8vw,48px);font-weight:800;letter-spacing:-1px;color:var(--brand);line-height:1.1;margin-top:4px;}
+  .result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .result-row:last-child{border-bottom:none;}
+  .result-row .label{color:var(--muted);}
+  .result-row .val{font-weight:700;}
+  .note{font-size:13px;color:var(--muted);margin-top:12px;}
+  .section{margin-top:40px;}
+  .section h2{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:12px;}
+  .section p{font-size:15px;color:#33455a;margin-bottom:12px;}
+  .back{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;}
+  .disclaimer{font-size:12.5px;color:#8a99a8;margin-top:24px;line-height:1.7;}
+  .faq-item{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+  .faq-q{width:100%;text-align:left;background:none;border:none;padding:16px 18px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .faq-q .chev{color:var(--brand);font-size:12px;transition:transform .2s;}
+  .faq-item.open .chev{transform:rotate(180deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-item.open .faq-a{max-height:400px;}
+  .faq-a p{padding:0 18px 16px;font-size:14px;color:#33455a;margin:0;}
+  @media (max-width:520px){.card{padding:20px 16px;}.wrap{padding:20px 14px 40px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← All pay tools</a>
+  <header class="top">
+    <div class="brand"><span></span> Salary &amp; Pay Tools</div>
+    <h1>Commission Calculator</h1>
+    <p class="sub">Calculate how much you earn from sales commission — including base salary, commission rate, and total earnings per pay period.</p>
+  </header>
+
+  <div class="card">
+    <div class="field">
+      <label for="sales">Total sales amount <span class="hint">(this period)</span></label>
+      <div class="prefix"><span class="sign">$</span><input class="input" id="sales" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 50000"></div>
+    </div>
+    <div class="field">
+      <label for="rate">Commission rate</label>
+      <div class="suffix"><span class="sign">%</span><input class="input" id="rate" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 5" value="5"></div>
+    </div>
+    <div class="field">
+      <label for="base">Base salary <span class="hint">(this period, before commission)</span></label>
+      <div class="prefix"><span class="sign">$</span><input class="input" id="base" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 3000"></div>
+    </div>
+    <button class="btn" onclick="calc()">Calculate Earnings</button>
+
+    <div class="result hidden" id="result">
+      <div class="big">Your total earnings this period</div>
+      <div class="num" id="total">$0</div>
+      <div style="margin-top:20px;">
+        <div class="result-row"><span class="label">Base salary</span><span class="val" id="r-base">$0</span></div>
+        <div class="result-row"><span class="label">Commission earned</span><span class="val" id="r-commission">$0</span></div>
+        <div class="result-row"><span class="label">Commission per $1 of sales</span><span class="val" id="r-perdollar">$0</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>How commission pay works</h2>
+    <p>Sales commission is a percentage of the sales you make, paid on top of (or instead of) a base salary. Common structures include straight commission (no base), base + commission, and tiered commission (higher rates as you hit bigger targets).</p>
+    <p>Our calculator uses the simplest model: a flat commission rate on your total sales, plus any base pay you earn in the same period.</p>
+  </div>
+
+  <div class="section">
+    <h2>Common commission rates</h2>
+    <p><strong>Retail sales:</strong> 3–7%<br>
+    <strong>Real estate agent:</strong> 2.5–3% per side<br>
+    <strong>Insurance sales:</strong> 10–50% of first-year premium<br>
+    <strong>B2B SaaS sales:</strong> 5–15% of monthly recurring revenue</p>
+  </div>
+
+  <div class="section">
+    <h2>FAQ</h2>
+    <div class="faq-item">
+      <button class="faq-q">Is commission taxed? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Yes. Commission is treated as regular wages and taxed the same way as your base salary — federal income tax, Social Security, Medicare, and state income tax (if applicable).</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What's a good commission rate? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Depends on the industry. For most retail and B2B roles, 5–10% is standard. If you're on straight commission (no base), expect 15%+ to compensate for the lack of stability.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Do I get commission on returns? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Usually no. Most companies claw back commission on returned or canceled sales. Check your compensation plan — it should spell this out.</p></div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    This calculator provides estimates for general guidance only and is not financial or tax advice. Actual commission structures vary by employer, industry, and plan. Always confirm your compensation details with your HR department.
+  </div>
+</div>
+
+<script>
+function calc(){
+  var sales=parseFloat(document.getElementById('sales').value)||0;
+  var rate=parseFloat(document.getElementById('rate').value)||0;
+  var base=parseFloat(document.getElementById('base').value)||0;
+  var commission=sales*(rate/100);
+  var total=base+commission;
+  document.getElementById('result').classList.remove('hidden');
+  document.getElementById('total').textContent='$'+total.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('r-base').textContent='$'+base.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('r-commission').textContent='$'+commission.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('r-perdollar').textContent='$'+(commission/sales).toFixed(4);
+}
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click',function(){q.parentElement.classList.toggle('open');});
+});
+</script>
+</body>
+</html>

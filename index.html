@@ -7,6 +7,7 @@
 <meta name="description" content="Free salary and pay calculators: estimate take-home pay, convert annual salary to hourly rate, calculate overtime pay, and compare pay with US minimum wage. Quick, accurate, mobile-friendly.">
 <meta property="og:title" content="Salary & Pay Tools">
 <meta property="og:description" content="Free hourly wage, overtime and salary conversion calculators.">
+<link rel="canonical" href="https://salary-tools-three.vercel.app/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%B8%3C/text%3E%3C/svg%3E">
 <style>
   :root{
@@ -46,6 +47,18 @@
   .section{margin-top:40px;}
   .section h2{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:12px;}
   .section p{font-size:15px;color:#33455a;margin-bottom:12px;}
+  .scenarios{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:6px;}
+  .scenario{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;}
+  .scenario .s-ico{font-size:22px;}
+  .scenario .s-t{font-size:16px;font-weight:700;margin-top:8px;}
+  .scenario .s-d{font-size:13.5px;color:var(--muted);margin-top:6px;line-height:1.5;}
+  .faq-item{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+  .faq-q{width:100%;text-align:left;background:none;border:none;padding:16px 18px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .faq-q .chev{color:var(--brand);font-size:12px;transition:transform .2s;}
+  .faq-item.open .chev{transform:rotate(180deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-item.open .faq-a{max-height:400px;}
+  .faq-a p{padding:0 18px 16px;font-size:14px;color:#33455a;margin:0;}
 
   @media (max-width:520px){
     .wrap{padding:20px 14px 40px;}
@@ -85,12 +98,88 @@
       <div class="d">Convert between hourly, weekly, monthly and annual pay in either direction.</div>
       <div class="go">Open tool →</div>
     </a>
+    <a class="tool" href="minimum-wage-calculator.html">
+      <div class="ico">📋</div>
+      <div class="t">Minimum Wage Calculator</div>
+      <div class="d">Compare your hourly rate against the federal and 2026 state minimum wage.</div>
+      <div class="go">Open tool →</div>
+    </a>
+    <a class="tool" href="freelance-hourly-rate.html">
+      <div class="ico">💼</div>
+      <div class="t">Freelance Rate Calculator</div>
+      <div class="d">Work out what to charge per hour as a freelancer or contractor, factoring in tax and expenses.</div>
+      <div class="go">Open tool →</div>
+    </a>
+    <a class="tool" href="commission-calculator.html">
+      <div class="ico">📈</div>
+      <div class="t">Commission Calculator</div>
+      <div class="d">Calculate sales commission earnings: base salary plus commission rate on total sales.</div>
+      <div class="go">Open tool →</div>
+    </a>
+    <a class="tool" href="salary-raise-calculator.html">
+      <div class="ico">⬆️</div>
+      <div class="t">Salary Raise Calculator</div>
+      <div class="d">See exactly how much a raise changes your annual, monthly, and per-paycheck take-home pay.</div>
+      <div class="go">Open tool →</div>
+    </a>
+    <a class="tool" href="hourly-to-salary-converter.html">
+      <div class="ico">🔄</div>
+      <div class="t">Hourly to Salary Converter</div>
+      <div class="d">Convert any hourly rate into annual, monthly, and weekly pay — with a quick reference table.</div>
+      <div class="go">Open tool →</div>
+    </a>
   </div>
 
   <section class="section">
     <h2>Why these tools help</h2>
     <p>Understanding your pay — whether you are an employee, a freelancer, or someone negotiating a job offer — comes down to a few simple numbers: your hourly rate, how many hours you work, and what that adds up to over a year. These calculators do the math instantly so you can make clear, informed decisions about your money.</p>
     <p>New tools are added regularly. Bookmark this page and check back.</p>
+  </section>
+
+  <section class="section">
+    <h2>Which tool should you use?</h2>
+    <div class="scenarios">
+      <div class="scenario">
+        <div class="s-ico">🧾</div>
+        <div class="s-t">Job offer negotiation</div>
+        <div class="s-d">Compare an hourly offer vs a salaried offer with the Hourly Wage Calculator and Salary Converter.</div>
+      </div>
+      <div class="scenario">
+        <div class="s-ico">💸</div>
+        <div class="s-t">Budgeting</div>
+        <div class="s-d">See what actually hits your bank account with the Take-Home Pay Calculator, then plan around net pay.</div>
+      </div>
+      <div class="scenario">
+        <div class="s-ico">⏱️</div>
+        <div class="s-t">Overtime work</div>
+        <div class="s-d">Estimate how much a few extra hours or double-time days add to your weekly pay with the Overtime Calculator.</div>
+      </div>
+      <div class="scenario">
+        <div class="s-ico">🔄</div>
+        <div class="s-t">Freelance pricing</div>
+        <div class="s-d">Convert your annual target into hourly, daily or monthly rates with the Salary Converter.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Pay &amp; salary FAQs</h2>
+    <div class="faq-item">
+      <button class="faq-q">How much is $50,000 a year per hour? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>At a standard 40-hour, 52-week schedule, $50,000 a year is about $24.04 per hour before taxes.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What is the difference between gross and net pay? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Gross pay is before any deductions; net (take-home) pay is what you keep after federal, state and FICA taxes. Use the Take-Home Pay Calculator to go from gross to net.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How do I calculate my hourly rate? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Divide your annual salary by your total hours per year (hours per week × weeks per year). For 40 hours × 52 weeks, that's 2,080 hours.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How is overtime pay calculated? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Under federal law, overtime is 1.5x your regular rate for hours beyond 40 in a week. The Overtime Calculator handles time-and-a-half and double-time.</p></div>
+    </div>
   </section>
 
   <footer style="margin-top:60px;padding-top:24px;border-top:1px solid #e4eaf1;text-align:center;font-size:13px;color:#5b6b7b;">
@@ -107,5 +196,13 @@
     </p>
   </footer>
 </div>
+<script>
+(function(){
+  "use strict";
+  document.querySelectorAll(".faq-q").forEach(function(q){
+    q.addEventListener("click",function(){q.parentElement.classList.toggle("open");});
+  });
+})();
+</script>
 </body>
 </html>

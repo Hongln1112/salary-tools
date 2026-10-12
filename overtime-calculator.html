@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Overtime Pay Calculator — Calculate Weekly Pay with Overtime</title>
 <meta name="description" content="Free overtime pay calculator: enter your hourly rate, regular and overtime hours, and see your total weekly pay. Handles time-and-a-half and double-time rates.">
+<link rel="canonical" href="https://salary-tools-three.vercel.app/overtime-calculator.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%95%90%EF%B8%8F%3C/text%3E%3C/svg%3E">
 <style>
   :root{
@@ -45,6 +46,13 @@
   .callout{background:#eef5ff;border-left:4px solid var(--brand);padding:14px 16px;border-radius:10px;margin:14px 0;}
   .back{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;}
   .disclaimer{font-size:12.5px;color:#8a99a8;margin-top:24px;line-height:1.7;}
+  .faq-item{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+  .faq-q{width:100%;text-align:left;background:none;border:none;padding:16px 18px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .faq-q .chev{color:var(--brand);font-size:12px;transition:transform .2s;}
+  .faq-item.open .chev{transform:rotate(180deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-item.open .faq-a{max-height:400px;}
+  .faq-a p{padding:0 18px 16px;font-size:14px;color:#33455a;margin:0;}
   @media (max-width:520px){.card{padding:20px 16px;}.wrap{padding:20px 14px 40px;}}
 </style>
 </head>
@@ -98,6 +106,26 @@
     <p>Example: a $20/hour rate, 40 regular hours and 5 overtime hours at 1.5× gives <strong>$950</strong> that week ($800 regular + $150 overtime).</p>
   </section>
 
+  <section class="section">
+    <h2>Overtime FAQs</h2>
+    <div class="faq-item">
+      <button class="faq-q">How is overtime pay calculated? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Under the federal Fair Labor Standards Act, overtime is 1.5x your regular hourly rate for hours over 40 in a week. Some agreements pay double time (2x) for weekends or holidays.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What does time-and-a-half mean? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Time-and-a-half means 1.5x your normal rate. At $20/hour, overtime hours earn $30/hour. It's the most common overtime rate under federal law.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Are salaried employees eligible for overtime? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Not always. Exempt salaried employees (typically earning above the salary threshold and meeting duty tests) are not entitled to overtime. Non-exempt salaried workers are. Check your classification with your employer.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What if my state has a higher minimum wage? <span class="chev">▼</span></button>
+      <div class="faq-a"><p>Overtime is still 1.5x your regular rate, but your regular rate must be at least your state's minimum wage. Several states also have daily overtime or stricter rules than federal law.</p></div>
+    </div>
+  </section>
+
   <div class="disclaimer">This tool estimates gross weekly pay and does not account for taxes, deductions, or state-specific overtime rules. Some states have additional overtime laws. Verify with your employer or state labor department.</div>
 </div>
 
@@ -129,6 +157,9 @@
   document.getElementById("calc").addEventListener("click",compute);
   ["rate","reg","ot","mult"].forEach(function(id){
     document.getElementById(id).addEventListener("keydown",function(e){if(e.key==="Enter")compute();});
+  });
+  document.querySelectorAll(".faq-q").forEach(function(q){
+    q.addEventListener("click",function(){q.parentElement.classList.toggle("open");});
   });
 })();
 </script>
