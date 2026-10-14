@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data — Tax Tables, Minimum Wage & Pay Statistics | Salary Tools</title>
+<meta name="description" content="2026 federal tax brackets, state minimum wage rates, and US wage statistics. Reference data for pay calculations.">
+<link rel="canonical" href="https://salary-tools-three.vercel.app/data.html">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  :root{
+    --bg:#f8fafc;--card:#ffffff;--ink:#0f172a;--muted:#64748b;
+    --brand:#2563eb;--brand-dark:#1d4ed8;--accent:#10b981;
+    --line:#e2e8f0;--navy:#0f1e3d;
+    --radius:14px;--shadow:0 1px 3px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+  nav{background:var(--navy);position:sticky;top:0;z-index:100;}
+  .nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+  .nav-brand{color:#fff;font-weight:700;font-size:15px;letter-spacing:-.2px;text-decoration:none;display:flex;align-items:center;gap:8px;}
+  .nav-brand svg{width:22px;height:22px;}
+  .nav-links{display:flex;gap:28px;}
+  .nav-links a{color:#94a3b8;text-decoration:none;font-size:14px;font-weight:500;transition:color .15s;}
+  .nav-links a:hover{color:#fff;}
+  .nav-links a.active{color:#fff;}
+
+  .wrap{max-width:1140px;margin:0 auto;padding:48px 24px 64px;}
+
+  h1{font-size:clamp(28px,4.5vw,40px);font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:10px;}
+  .sub{font-size:16px;color:var(--muted);max-width:640px;margin-bottom:36px;}
+
+  .data-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;}
+  .data-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:28px;
+  }
+  .data-tag{font-size:12px;font-weight:600;color:var(--brand);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+  .data-card h3{font-size:18px;font-weight:700;letter-spacing:-.2px;margin-bottom:10px;}
+  .data-card p{font-size:14px;color:var(--muted);line-height:1.5;margin-bottom:14px;}
+  .data-card .view{font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;}
+
+  .stat-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .stat-row:last-child{border-bottom:none;}
+  .stat-row .k{color:var(--muted);}
+  .stat-row .v{font-weight:600;}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;text-align:center;margin-top:64px;}
+  footer .foot-links{margin-bottom:8px;}
+  footer .foot-links a{color:var(--muted);text-decoration:none;font-size:13px;margin:0 12px;}
+  footer .copyright{font-size:12px;color:var(--muted);}
+
+  @media (max-width:640px){.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      Salary Tools
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Tools</a>
+      <a href="benchmark.html">Benchmark</a>
+      <a href="guides.html">Guides</a>
+      <a href="data.html" class="active">Data</a>
+      <a href="about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <h1>Reference Data</h1>
+  <p class="sub">2026 tax brackets, minimum wage rates, and US wage statistics — the numbers behind our calculators.</p>
+
+  <div class="data-grid">
+    <div class="data-card">
+      <div class="data-tag">Federal Taxes</div>
+      <h3>2026 Federal Tax Brackets</h3>
+      <div class="stat-row"><span class="k">Single — 10% bracket</span><span class="v">$0 – $12,400</span></div>
+      <div class="stat-row"><span class="k">Single — 12% bracket</span><span class="v">$12,400 – $50,400</span></div>
+      <div class="stat-row"><span class="k">Single — 22% bracket</span><span class="v">$50,400 – $105,700</span></div>
+      <div class="stat-row"><span class="k">Standard deduction (single)</span><span class="v">$16,100</span></div>
+      <div class="stat-row"><span class="k">Standard deduction (married)</span><span class="v">$32,200</span></div>
+      <p style="margin-top:14px;"></p>
+      <a class="view" href="take-home-pay-calculator.html">Use in calculator →</a>
+    </div>
+
+    <div class="data-card">
+      <div class="data-tag">Payroll Taxes</div>
+      <h3>FICA & Social Security</h3>
+      <div class="stat-row"><span class="k">Social Security rate</span><span class="v">6.2%</span></div>
+      <div class="stat-row"><span class="k">Medicare rate</span><span class="v">1.45%</span></div>
+      <div class="stat-row"><span class="k">Total FICA (employee)</span><span class="v">7.65%</span></div>
+      <div class="stat-row"><span class="k">SS wage base (2026)</span><span class="v">$184,500</span></div>
+      <div class="stat-row"><span class="k">Self-employment tax</span><span class="v">15.3%</span></div>
+      <p style="margin-top:14px;"></p>
+      <a class="view" href="take-home-pay-calculator.html">Use in calculator →</a>
+    </div>
+
+    <div class="data-card">
+      <div class="data-tag">Minimum Wage</div>
+      <h3>Federal & State Minimum Wage</h3>
+      <div class="stat-row"><span class="k">Federal minimum wage</span><span class="v">$7.25/hr</span></div>
+      <div class="stat-row"><span class="k">Highest state (WA)</span><span class="v">$16.66/hr</span></div>
+      <div class="stat-row"><span class="k">States at federal level</span><span class="v">20 states</span></div>
+      <div class="stat-row"><span class="k">States with no income tax</span><span class="v">9 states</span></div>
+      <p style="margin-top:14px;"></p>
+      <a class="view" href="minimum-wage-calculator.html">Compare your rate →</a>
+    </div>
+
+    <div class="data-card">
+      <div class="data-tag">US Wage Statistics</div>
+      <h3>National Averages (2026)</h3>
+      <div class="stat-row"><span class="k">Average hourly wage</span><span class="v">$29.60</span></div>
+      <div class="stat-row"><span class="k">Median hourly wage</span><span class="v">$26.50</span></div>
+      <div class="stat-row"><span class="k">Top 25% threshold</span><span class="v">$42.00/hr</span></div>
+      <div class="stat-row"><span class="k">Median annual salary</span><span class="v">$55,000</span></div>
+      <p style="margin-top:14px;"></p>
+      <a class="view" href="benchmark.html">Benchmark your pay →</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+  </div>
+  <div class="copyright">© 2026 Salary &amp; Pay Tools</div>
+</footer>
+
+</body>
+</html>

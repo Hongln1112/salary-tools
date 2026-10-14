@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salary Benchmark — See How Your Pay Compares (2026)</title>
+<meta name="description" content="Enter your hourly rate and see how it compares to the US average, by city and experience level. Is $25/hour good? Find out instantly.">
+<link rel="canonical" href="https://salary-tools-three.vercel.app/benchmark.html">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  :root{
+    --bg:#f8fafc;--card:#ffffff;--ink:#0f172a;--muted:#64748b;
+    --brand:#2563eb;--brand-dark:#1d4ed8;--accent:#10b981;
+    --warn:#f59e0b;--danger:#ef4444;
+    --line:#e2e8f0;--navy:#0f1e3d;
+    --radius:14px;--shadow:0 1px 3px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+  nav{background:var(--navy);position:sticky;top:0;z-index:100;}
+  .nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+  .nav-brand{color:#fff;font-weight:700;font-size:15px;letter-spacing:-.2px;text-decoration:none;display:flex;align-items:center;gap:8px;}
+  .nav-brand svg{width:22px;height:22px;}
+  .nav-links{display:flex;gap:28px;}
+  .nav-links a{color:#94a3b8;text-decoration:none;font-size:14px;font-weight:500;transition:color .15s;}
+  .nav-links a:hover{color:#fff;}
+  .nav-links a.active{color:#fff;}
+
+  .wrap{max-width:900px;margin:0 auto;padding:48px 24px 64px;}
+
+  h1{font-size:clamp(28px,4.5vw,40px);font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:10px;}
+  h1 .accent{color:var(--brand);}
+  .sub{font-size:16px;color:var(--muted);max-width:640px;margin-bottom:36px;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px;margin-bottom:28px;}
+
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .input{width:100%;padding:13px 14px;font-size:16px;border:1.5px solid var(--line);border-radius:10px;background:#fff;outline:none;transition:border-color .15s;font-family:inherit;}
+  .input:focus{border-color:var(--brand);}
+  .prefix{position:relative;}
+  .prefix .sign{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);}
+  .prefix .input{padding-left:32px;}
+
+  .btn{width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:11px;cursor:pointer;transition:background .15s;font-family:inherit;}
+  .btn:hover{background:var(--brand-dark);}
+
+  .result{margin-top:28px;display:none;}
+  .result.show{display:block;}
+
+  .verdict{
+    padding:20px;border-radius:12px;text-align:center;margin-bottom:24px;
+  }
+  .verdict.low{background:#fef2f2;border:1px solid #fecaca;}
+  .verdict.mid{background:#fffbeb;border:1px solid #fde68a;}
+  .verdict.high{background:#f0fdf4;border:1px solid #bbf7d0;}
+  .verdict .v-label{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
+  .verdict .v-text{font-size:24px;font-weight:800;margin-top:4px;letter-spacing:-.5px;}
+  .verdict.low .v-text{color:var(--danger);}
+  .verdict.mid .v-text{color:var(--warn);}
+  .verdict.high .v-text{color:var(--accent);}
+
+  .comparison{margin-bottom:20px;}
+  .comparison h3{font-size:15px;font-weight:700;margin-bottom:14px;}
+  .cmp-row{
+    display:grid;grid-template-columns:120px 1fr 70px;
+    align-items:center;gap:12px;margin-bottom:10px;font-size:14px;
+  }
+  .cmp-label{color:var(--muted);text-align:right;}
+  .cmp-track{height:24px;background:#f1f5f9;border-radius:6px;position:relative;overflow:hidden;}
+  .cmp-fill{height:100%;border-radius:6px;}
+  .cmp-fill.user{background:var(--brand);}
+  .cmp-fill.avg{background:#cbd5e1;}
+  .cmp-value{font-weight:600;font-size:13px;}
+
+  .city-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:16px;
+  }
+  .city-card{
+    background:#f8fafc;border-radius:10px;padding:14px;
+  }
+  .city-name{font-size:13px;font-weight:600;}
+  .city-rate{font-size:20px;font-weight:800;color:var(--brand);margin-top:2px;}
+  .city-desc{font-size:12px;color:var(--muted);margin-top:2px;}
+
+  .section{margin-bottom:28px;}
+  .section h2{font-size:20px;font-weight:700;letter-spacing:-.5px;margin-bottom:12px;}
+  .section p{font-size:15px;color:#33455a;margin-bottom:12px;}
+
+  .disclaimer{font-size:12.5px;color:var(--muted);margin-top:24px;line-height:1.7;}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;text-align:center;}
+  footer .foot-links{margin-bottom:8px;}
+  footer .foot-links a{color:var(--muted);text-decoration:none;font-size:13px;margin:0 12px;}
+  footer .foot-links a:hover{color:var(--brand);}
+  footer .copyright{font-size:12px;color:var(--muted);}
+
+  @media (max-width:640px){
+    .nav-links{display:none;}
+    .wrap{padding:24px 16px 40px;}
+    .cmp-row{grid-template-columns:90px 1fr 60px;gap:8px;font-size:13px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      Salary Tools
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Tools</a>
+      <a href="benchmark.html" class="active">Benchmark</a>
+      <a href="guides.html">Guides</a>
+      <a href="data.html">Data</a>
+      <a href="about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <h1>Is your pay <span class="accent">actually good?</span></h1>
+  <p class="sub">Enter your hourly rate and see how it stacks up against the US average — by city and experience level.</p>
+
+  <div class="card">
+    <div class="field">
+      <label for="rate">Your hourly rate ($)</label>
+      <div class="prefix"><span class="sign">$</span><input class="input" id="rate" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 25"></div>
+    </div>
+    <button class="btn" id="calc">Compare my pay</button>
+
+    <div class="result" id="result">
+      <div class="verdict" id="verdict">
+        <div class="v-label">Verdict</div>
+        <div class="v-text" id="v-text">—</div>
+      </div>
+
+      <div class="comparison">
+        <h3>Compared to US averages</h3>
+        <div class="cmp-row">
+          <div class="cmp-label">Your rate</div>
+          <div class="cmp-track"><div class="cmp-fill user" id="user-bar" style="width:0%"></div></div>
+          <div class="cmp-value" id="user-val">$0</div>
+        </div>
+        <div class="cmp-row">
+          <div class="cmp-label">US average</div>
+          <div class="cmp-track"><div class="cmp-fill avg" style="width:48%"></div></div>
+          <div class="cmp-value">$29.60</div>
+        </div>
+        <div class="cmp-row">
+          <div class="cmp-label">Median wage</div>
+          <div class="cmp-track"><div class="cmp-fill avg" style="width:42%"></div></div>
+          <div class="cmp-value">$26.50</div>
+        </div>
+        <div class="cmp-row">
+          <div class="cmp-label">Top 25%</div>
+          <div class="cmp-track"><div class="cmp-fill avg" style="width:68%"></div></div>
+          <div class="cmp-value">$42.00</div>
+        </div>
+      </div>
+
+      <div class="comparison">
+        <h3>Average hourly rates by city</h3>
+        <div class="city-grid">
+          <div class="city-card">
+            <div class="city-name">San Francisco</div>
+            <div class="city-rate">$42.50</div>
+            <div class="city-desc">Tech hub, high cost of living</div>
+          </div>
+          <div class="city-card">
+            <div class="city-name">New York</div>
+            <div class="city-rate">$38.20</div>
+            <div class="city-desc">Finance, media, dense market</div>
+          </div>
+          <div class="city-card">
+            <div class="city-name">Seattle</div>
+            <div class="city-rate">$36.80</div>
+            <div class="city-desc">Amazon, Microsoft corridor</div>
+          </div>
+          <div class="city-card">
+            <div class="city-name">Austin</div>
+            <div class="city-rate">$31.40</div>
+            <div class="city-desc">Growing tech, lower COL</div>
+          </div>
+          <div class="city-card">
+            <div class="city-name">Chicago</div>
+            <div class="city-rate">$30.10</div>
+            <div class="city-desc">Diverse economy, mid cost</div>
+          </div>
+          <div class="city-card">
+            <div class="city-name">Dallas</div>
+            <div class="city-rate">$28.50</div>
+            <div class="city-desc">No state income tax</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <h2>How to read this</h2>
+    <p>The US average hourly wage across all industries is roughly $29.60, and the median (where half earn less, half earn more) is about $26.50. These are gross figures — before taxes. Your effective take-home hourly rate will be 20–35% lower depending on your state and filing status.</p>
+    <p>City averages adjust for cost of living and industry mix. A $30/hour job in San Francisco is a middle-income salary there, but the same rate in Dallas or Atlanta puts you well above the local average.</p>
+  </section>
+
+  <div class="disclaimer">Figures are approximate 2026 estimates based on BLS and public wage data. Individual salaries vary significantly by industry, education, experience, and negotiation skill. This is a general reference, not personalized compensation advice.</div>
+
+</div>
+
+<footer>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+  </div>
+  <div class="copyright">© 2026 Salary &amp; Pay Tools</div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var US_AVG = 29.60;
+
+  document.getElementById("calc").addEventListener("click", function(){
+    var rate = parseFloat(document.getElementById("rate").value);
+    var result = document.getElementById("result");
+    var verdict = document.getElementById("verdict");
+    var vText = document.getElementById("v-text");
+    var userBar = document.getElementById("user-bar");
+    var userVal = document.getElementById("user-val");
+
+    if(isNaN(rate) || rate <= 0){
+      vText.textContent = "Enter a valid rate";
+      verdict.className = "verdict mid";
+      result.classList.add("show");
+      return;
+    }
+
+    var pct = rate / US_AVG;
+    userBar.style.width = Math.min(rate / 50 * 100, 100) + "%";
+    userVal.textContent = "$" + rate.toFixed(2);
+
+    if(rate < 18){
+      vText.textContent = "Below average";
+      verdict.className = "verdict low";
+    } else if(rate < 29){
+      vText.textContent = "Around average";
+      verdict.className = "verdict mid";
+    } else if(rate < 42){
+      vText.textContent = "Above average";
+      verdict.className = "verdict high";
+    } else {
+      vText.textContent = "Well above average";
+      verdict.className = "verdict high";
+    }
+
+    result.classList.add("show");
+  });
+})();
+</script>
+
+</body>
+</html>

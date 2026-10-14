@@ -9,72 +9,92 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <style>
   :root{
-    --bg:#f4f7fb;--card:#ffffff;--ink:#1c2a3a;--muted:#5b6b7b;--brand:#1f6feb;--brand-dark:#155ab8;
-    --line:#e4eaf1;--radius:16px;--shadow:0 8px 28px rgba(28,42,58,.08);
+    --bg:#f8fafc;--card:#ffffff;--ink:#0f172a;--muted:#64748b;
+    --brand:#2563eb;--brand-dark:#1d4ed8;--accent:#10b981;
+    --line:#e2e8f0;--navy:#0f1e3d;
+    --radius:14px;--shadow:0 1px 3px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:760px;margin:0 auto;padding:32px 18px 48px;}
-  header.top{padding:6px 0 22px;}
-  header.top .brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);}
-  header.top .brand span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand);}
-  h1{font-size:clamp(26px,4.5vw,34px);font-weight:800;letter-spacing:-.5px;line-height:1.25;margin:12px 0 10px;}
-  .sub{font-size:16px;color:var(--muted);max-width:600px;}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 24px;margin-top:26px;}
-  .tabs{display:flex;gap:6px;background:#eef3f9;padding:5px;border-radius:12px;margin-bottom:22px;}
-  .tab{flex:1;text-align:center;padding:10px 8px;font-size:14px;font-weight:600;color:var(--muted);border-radius:9px;cursor:pointer;transition:all .15s;border:none;background:transparent;}
-  .tab.active{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(28,42,58,.08);}
+  nav{background:var(--navy);position:sticky;top:0;z-index:100;}
+  .nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+  .nav-brand{color:#fff;font-weight:700;font-size:15px;letter-spacing:-.2px;text-decoration:none;display:flex;align-items:center;gap:8px;}
+  .nav-brand svg{width:22px;height:22px;}
+  .nav-links{display:flex;gap:28px;}
+  .nav-links a{color:#94a3b8;text-decoration:none;font-size:14px;font-weight:500;transition:color .15s;}
+  .nav-links a:hover{color:#fff;}
+  .wrap{max-width:900px;margin:0 auto;padding:40px 24px 64px;}
+  h1{font-size:clamp(28px,4.5vw,38px);font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:10px;}
+  .sub{font-size:16px;color:var(--muted);max-width:640px;margin-bottom:32px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px;margin-bottom:32px;}
+  .tabs{display:flex;gap:6px;background:#f1f5f9;padding:5px;border-radius:12px;margin-bottom:22px;}
+  .tab{flex:1;text-align:center;padding:10px 8px;font-size:14px;font-weight:600;color:var(--muted);border-radius:9px;cursor:pointer;transition:all .15s;border:none;background:transparent;font-family:inherit;}
+  .tab.active{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(15,23,42,.08);}
   .field{margin-bottom:18px;}
   .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
   .field .hint{font-size:12px;color:var(--muted);font-weight:400;}
-  .input{width:100%;padding:13px 14px;font-size:16px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;outline:none;transition:border-color .15s;}
-  .input:focus{border-color:var(--brand);background:#fff;}
+  .input{width:100%;padding:13px 14px;font-size:16px;border:1.5px solid var(--line);border-radius:10px;background:#fff;outline:none;transition:border-color .15s;font-family:inherit;}
+  .input:focus{border-color:var(--brand);}
   .prefix{position:relative;}
   .prefix .sign{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);}
   .prefix .input{padding-left:32px;}
-  .btn{width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:11px;cursor:pointer;margin-top:6px;transition:background .15s;}
+  .btn{width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:11px;cursor:pointer;transition:background .15s;font-family:inherit;}
   .btn:hover{background:var(--brand-dark);}
   .result{margin-top:24px;border-top:1px solid var(--line);padding-top:20px;}
   .result.hidden{display:none;}
-  .result .big{font-size:15px;color:var(--muted);font-weight:600;}
-  .result .num{font-size:clamp(38px,8vw,48px);font-weight:800;letter-spacing:-1px;color:var(--brand);line-height:1.1;margin-top:4px;}
+  .break{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:16px;}
+  .break .b{background:#f1f5f9;border-radius:10px;padding:14px;}
+  .break .bl{font-size:12px;color:var(--muted);font-weight:600;}
+  .break .bv{font-size:18px;font-weight:700;margin-top:4px;}
   .note{font-size:13px;color:var(--muted);margin-top:12px;}
-  .section{margin-top:40px;}
-  .section h2{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:12px;}
+  .section{margin-bottom:32px;}
+  .section h2{font-size:20px;font-weight:700;letter-spacing:-.5px;margin-bottom:12px;}
   .section p{font-size:15px;color:#33455a;margin-bottom:12px;}
-  .callout{background:#eef5ff;border-left:4px solid var(--brand);padding:14px 16px;border-radius:10px;margin:14px 0;}
-  .back{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;}
-  .disclaimer{font-size:12.5px;color:#8a99a8;margin-top:24px;line-height:1.7;}
+  .callout{background:#eff6ff;border-left:4px solid var(--brand);padding:14px 16px;border-radius:10px;margin:14px 0;font-size:14px;}
   .faq-item{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;}
-  .faq-q{width:100%;text-align:left;background:none;border:none;padding:16px 18px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
-  .faq-q .chev{color:var(--brand);font-size:12px;transition:transform .2s;}
+  .faq-q{width:100%;text-align:left;background:none;border:none;padding:18px 22px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:inherit;}
+  .faq-q .chev{color:var(--brand);font-size:12px;transition:transform .2s;flex-shrink:0;}
   .faq-item.open .chev{transform:rotate(180deg);}
   .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
-  .faq-item.open .faq-a{max-height:400px;}
-  .faq-a p{padding:0 18px 16px;font-size:14px;color:#33455a;margin:0;}
-  @media (max-width:520px){.card{padding:20px 16px;}.wrap{padding:20px 14px 40px;}}
+  .faq-item.open .faq-a{max-height:500px;}
+  .faq-a p{padding:0 22px 18px;font-size:14px;color:#33455a;line-height:1.6;}
+  .disclaimer{font-size:12.5px;color:var(--muted);margin-top:24px;line-height:1.7;}
+  footer{border-top:1px solid var(--line);padding:32px 0;text-align:center;}
+  footer .foot-links{margin-bottom:8px;}
+  footer .foot-links a{color:var(--muted);text-decoration:none;font-size:13px;margin:0 12px;}
+  footer .copyright{font-size:12px;color:var(--muted);}
+  @media (max-width:640px){.nav-links{display:none;}.wrap{padding:24px 16px 40px;}.card{padding:24px 20px;}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="index.html">← All pay tools</a>
-  <header class="top">
-    <div class="brand"><span></span> Salary &amp; Pay Tools</div>
-    <h1>Salary Converter</h1>
-    <p class="sub">See your pay across different time periods — hourly, weekly, monthly and annual — starting from whichever figure you know.</p>
-  </header>
 
-
-  <div class="related" style="margin-top:8px;font-size:13px;color:var(--muted);">
-    Related: <a href="take-home-pay-calculator.html" style="color:var(--brand);text-decoration:none;font-weight:600;">Take-Home Pay</a> · <a href="hourly-wage-calculator.html" style="color:var(--brand);text-decoration:none;font-weight:600;">Hourly Wage</a>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      Salary Tools
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Tools</a>
+      <a href="benchmark.html">Benchmark</a>
+      <a href="guides.html">Guides</a>
+      <a href="data.html">Data</a>
+      <a href="about.html">About</a>
+    </div>
   </div>
+</nav>
+
+<div class="wrap">
+
+  <h1>Salary Converter</h1>
+  <p class="sub">See your pay across different time periods — hourly, weekly, monthly and annual — starting from whichever figure you know.</p>
+
   <div class="card">
     <div class="tabs" role="tablist">
       <button class="tab active" id="tab-annual" role="tab">From Annual</button>
       <button class="tab" id="tab-hourly" role="tab">From Hourly</button>
     </div>
 
-    <!-- From annual -->
     <div id="panel-annual">
       <div class="field">
         <label for="annual">Annual salary <span class="hint">(before taxes)</span></label>
@@ -91,7 +111,6 @@
       <button class="btn" id="calc-annual">Convert</button>
     </div>
 
-    <!-- From hourly -->
     <div id="panel-hourly" style="display:none;">
       <div class="field">
         <label for="rate">Hourly rate <span class="hint">(before taxes)</span></label>
@@ -109,11 +128,11 @@
     </div>
 
     <div class="result hidden" id="result">
-      <div class="break" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;">
-        <div style="background:#f4f7fb;border-radius:10px;padding:12px;"><div style="font-size:12px;color:var(--muted);font-weight:600;">Hourly</div><div style="font-size:18px;font-weight:700;margin-top:4px;" id="r-hourly">—</div></div>
-        <div style="background:#f4f7fb;border-radius:10px;padding:12px;"><div style="font-size:12px;color:var(--muted);font-weight:600;">Weekly</div><div style="font-size:18px;font-weight:700;margin-top:4px;" id="r-weekly">—</div></div>
-        <div style="background:#f4f7fb;border-radius:10px;padding:12px;"><div style="font-size:12px;color:var(--muted);font-weight:600;">Monthly</div><div style="font-size:18px;font-weight:700;margin-top:4px;" id="r-monthly">—</div></div>
-        <div style="background:#f4f7fb;border-radius:10px;padding:12px;"><div style="font-size:12px;color:var(--muted);font-weight:600;">Annual</div><div style="font-size:18px;font-weight:700;margin-top:4px;" id="r-annual">—</div></div>
+      <div class="break">
+        <div class="b"><div class="bl">Hourly</div><div class="bv" id="r-hourly">—</div></div>
+        <div class="b"><div class="bl">Weekly</div><div class="bv" id="r-weekly">—</div></div>
+        <div class="b"><div class="bl">Monthly</div><div class="bv" id="r-monthly">—</div></div>
+        <div class="b"><div class="bl">Annual</div><div class="bv" id="r-annual">—</div></div>
       </div>
       <div class="note">Shown before taxes.</div>
     </div>
@@ -123,31 +142,41 @@
     <h2>How the conversion works</h2>
     <div class="callout"><strong>Annual = Hourly × Hours/week × Weeks/year</strong></div>
     <p>From that single relationship, every other figure follows: <strong>Weekly = Annual ÷ 52</strong>, and <strong>Monthly = Annual ÷ 12</strong>. Pick whichever number you already know, and the converter fills in the rest.</p>
-    <p>Example: $25/hour, 40 hours a week and 52 weeks a year equals about <strong>$52,000 a year</strong>, $1,000 a week, and $4,333 a month.</p>
+    <p>Example: $25/hour, 40 hours a week and 52 weeks a year equals about <strong>$52,000 a year</strong>, $1,000 a week, and $4,333 a month. After taxes, your actual take-home monthly pay will be roughly 20–35% lower.</p>
   </section>
 
   <section class="section">
     <h2>Salary conversion FAQs</h2>
     <div class="faq-item">
       <button class="faq-q">How do I convert an hourly wage to an annual salary? <span class="chev">▼</span></button>
-      <div class="faq-a"><p>Multiply your hourly rate by hours per week, then by weeks per year. $25/hour × 40 × 52 = $52,000/year. Use the Salary Converter with a full-time 40-hour, 52-week setup for the standard figure.</p></div>
+      <div class="faq-a"><p>Multiply your hourly rate by hours per week, then by weeks per year. $25/hour × 40 hours × 52 weeks = $52,000/year. Use a full-time 40-hour, 52-week setup for the standard figure. If you work part-time or take unpaid vacation, adjust the hours and weeks accordingly.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">How many weeks should I use in a year? <span class="chev">▼</span></button>
-      <div class="faq-a"><p>52 weeks is standard for full-time work. If you get unpaid time off, some people use 50 weeks. Adjust based on your actual paid weeks.</p></div>
+      <div class="faq-a"><p>52 weeks is standard for full-time salaried work. If you get 2 weeks of unpaid time off, some people use 50 weeks. If you get paid vacation, you still use 52 because those weeks are paid. The key is to use the number of weeks you actually receive pay for.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">Is the monthly figure gross or net? <span class="chev">▼</span></button>
-      <div class="faq-a"><p>This converter shows gross pay (before taxes) and uses annual ÷ 12 for simplicity. For the amount you actually keep, use the Take-Home Pay Calculator.</p></div>
+      <div class="faq-a"><p>This converter shows gross pay (before taxes) and uses annual ÷ 12 for simplicity. For the amount you actually keep after federal income tax, state income tax, and FICA, use the Take-Home Pay Calculator. The gap between gross monthly pay and net monthly pay can easily be $800–$1,500 depending on your income level.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">Why does my monthly pay vary between biweekly and monthly jobs? <span class="chev">▼</span></button>
-      <div class="faq-a"><p>Biweekly pay is 26 paychecks a year (sometimes 27), while semi-monthly is 24. A biweekly check is roughly annual ÷ 26, so it's smaller than a semi-monthly check of annual ÷ 24 even if the yearly total is the same.</p></div>
+      <div class="faq-a"><p>Biweekly pay means 26 paychecks a year (27 in leap years with 53 Fridays), while semi-monthly is 24 paychecks. A biweekly check is roughly annual ÷ 26, so each check is smaller than a semi-monthly check of annual ÷ 24 — even though the total yearly pay is identical. Budgeting by monthly income, not per-check income, avoids confusion.</p></div>
     </div>
   </section>
 
   <div class="disclaimer">This tool converts gross pay between time periods on a simple basis and does not account for taxes, deductions or benefits. Monthly figures are annual ÷ 12 for simplicity.</div>
+
 </div>
+
+<footer>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+  </div>
+  <div class="copyright">© 2026 Salary &amp; Pay Tools</div>
+</footer>
 
 <script>
 (function(){
@@ -194,29 +223,17 @@
   }
   document.getElementById("calc-annual").addEventListener("click",calcAnnual);
   document.getElementById("calc-hourly").addEventListener("click",calcHourly);
-  ["annual","hours","weeks","rate","hours2","weeks2"].forEach(function(id){
-    var el=document.getElementById(id);
-    el.addEventListener("keydown",function(e){
-      if(e.key==="Enter"){
-        if(id==="annual"||id==="hours"||id==="weeks"){calcAnnual();}
-        else{calcHourly();}
-      }
-    });
+  ["annual","hours","weeks"].forEach(function(id){
+    document.getElementById(id).addEventListener("keydown",function(e){if(e.key==="Enter")calcAnnual();});
+  });
+  ["rate","hours2","weeks2"].forEach(function(id){
+    document.getElementById(id).addEventListener("keydown",function(e){if(e.key==="Enter")calcHourly();});
   });
   document.querySelectorAll(".faq-q").forEach(function(q){
     q.addEventListener("click",function(){q.parentElement.classList.toggle("open");});
   });
 })();
 </script>
-<footer style="margin-top:40px;padding-top:20px;border-top:1px solid #e4eaf1;text-align:center;font-size:13px;color:#5b6b7b;">
-  <p>
-    <a href="index.html" style="color:#1f6feb;margin:0 6px;">All Tools</a> ·
-    <a href="hourly-wage-calculator.html" style="color:#1f6feb;margin:0 6px;">Hourly Wage</a> ·
-    <a href="overtime-calculator.html" style="color:#1f6feb;margin:0 6px;">Overtime</a> ·
-    <a href="salary-converter.html" style="color:#1f6feb;margin:0 6px;">Converter</a> ·
-    <a href="take-home-pay-calculator.html" style="color:#1f6feb;margin:0 6px;">Take-Home</a>
-  </p>
-  <p style="margin-top:6px;"><a href="about.html" style="color:#1f6feb;margin:0 6px;">About</a> · <a href="privacy.html" style="color:#1f6feb;margin:0 6px;">Privacy</a></p>
-</footer>
+
 </body>
 </html>
