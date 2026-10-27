@@ -148,18 +148,18 @@
         </div>
         <div class="cmp-row">
           <div class="cmp-label">US average</div>
-          <div class="cmp-track"><div class="cmp-fill avg" style="width:48%"></div></div>
-          <div class="cmp-value">$29.60</div>
+          <div class="cmp-track"><div class="cmp-fill avg" style="width:76%"></div></div>
+          <div class="cmp-value">$37.81</div>
         </div>
         <div class="cmp-row">
           <div class="cmp-label">Median wage</div>
-          <div class="cmp-track"><div class="cmp-fill avg" style="width:42%"></div></div>
-          <div class="cmp-value">$26.50</div>
+          <div class="cmp-track"><div class="cmp-fill avg" style="width:62%"></div></div>
+          <div class="cmp-value">$30.90</div>
         </div>
         <div class="cmp-row">
           <div class="cmp-label">Top 25%</div>
-          <div class="cmp-track"><div class="cmp-fill avg" style="width:68%"></div></div>
-          <div class="cmp-value">$42.00</div>
+          <div class="cmp-track"><div class="cmp-fill avg" style="width:100%"></div></div>
+          <div class="cmp-value">$54.00</div>
         </div>
       </div>
 
@@ -168,32 +168,32 @@
         <div class="city-grid">
           <div class="city-card">
             <div class="city-name">San Francisco</div>
-            <div class="city-rate">$42.50</div>
+            <div class="city-rate">$54.30</div>
             <div class="city-desc">Tech hub, high cost of living</div>
           </div>
           <div class="city-card">
             <div class="city-name">New York</div>
-            <div class="city-rate">$38.20</div>
+            <div class="city-rate">$48.80</div>
             <div class="city-desc">Finance, media, dense market</div>
           </div>
           <div class="city-card">
             <div class="city-name">Seattle</div>
-            <div class="city-rate">$36.80</div>
+            <div class="city-rate">$47.00</div>
             <div class="city-desc">Amazon, Microsoft corridor</div>
           </div>
           <div class="city-card">
             <div class="city-name">Austin</div>
-            <div class="city-rate">$31.40</div>
+            <div class="city-rate">$40.10</div>
             <div class="city-desc">Growing tech, lower COL</div>
           </div>
           <div class="city-card">
             <div class="city-name">Chicago</div>
-            <div class="city-rate">$30.10</div>
+            <div class="city-rate">$38.40</div>
             <div class="city-desc">Diverse economy, mid cost</div>
           </div>
           <div class="city-card">
             <div class="city-name">Dallas</div>
-            <div class="city-rate">$28.50</div>
+            <div class="city-rate">$36.40</div>
             <div class="city-desc">No state income tax</div>
           </div>
         </div>
@@ -203,7 +203,7 @@
 
   <section class="section">
     <h2>How to read this</h2>
-    <p>The US average hourly wage across all industries is roughly $29.60, and the median (where half earn less, half earn more) is about $26.50. These are gross figures — before taxes. Your effective take-home hourly rate will be 20–35% lower depending on your state and filing status.</p>
+    <p>The US average hourly wage across all industries is roughly $37.80, and the median (where half earn less, half earn more) is about $30.90. These are gross figures — before taxes. Your effective take-home hourly rate will be 20–35% lower depending on your state and filing status.</p>
     <p>City averages adjust for cost of living and industry mix. A $30/hour job in San Francisco is a middle-income salary there, but the same rate in Dallas or Atlanta puts you well above the local average.</p>
   </section>
 
@@ -223,7 +223,7 @@
 <script>
 (function(){
   "use strict";
-  var US_AVG = 29.60;
+  var US_AVG = 37.81;
 
   document.getElementById("calc").addEventListener("click", function(){
     var rate = parseFloat(document.getElementById("rate").value);
@@ -244,13 +244,13 @@
     userBar.style.width = Math.min(rate / 50 * 100, 100) + "%";
     userVal.textContent = "$" + rate.toFixed(2);
 
-    if(rate < 18){
+    if(rate < 23){
       vText.textContent = "Below average";
       verdict.className = "verdict low";
-    } else if(rate < 29){
+    } else if(rate < 37){
       vText.textContent = "Around average";
       verdict.className = "verdict mid";
-    } else if(rate < 42){
+    } else if(rate < 54){
       vText.textContent = "Above average";
       verdict.className = "verdict high";
     } else {
